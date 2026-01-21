@@ -32,7 +32,7 @@ Understanding patterns in educational outcomes is crucial for policy makers, edu
 
 ## 2. Data Sources
 
-**Note:** The original CSV and SQL Server database are not included in this repo due to size and privacy constraints. The notebook contains all code and results; it can be adapted to new data with the same schema.
+**Note:** The original CSV and SQL Server database are not included in this repo due to size constraints. The notebook contains all code and results
 
 ### Primary Source – SQL Server Data Warehouse
 
@@ -169,33 +169,6 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 5.2. Database Setup
-
-**Note:** The notebook requires access to a SQL Server database with the schema described in Section 2.
-
-If you don't have database access:
-- The notebook can be adapted to load data from CSV files
-- Update the connection string in `connect_to_sql_server()` function
-- Or modify the data loading section to use `pd.read_csv()`
-
-### 5.3. Start Jupyter and open the notebook
-
-```powershell
-jupyter notebook
-```
-
-Then open `unsupervised_clean.ipynb` and **Run All** cells from top to bottom.
-
-**Expected runtime:**
-- Data loading: ~2-5 minutes (240K records)
-- K-Means optimization: ~5-10 minutes (testing K=2 to 15)
-- Hierarchical clustering: ~2-3 minutes (on 5K sample)
-- DBSCAN grid search: ~10-15 minutes (24 parameter combinations)
-- Association rules: ~3-5 minutes (Apriori + FP-Growth)
-- **Total:** ~25-40 minutes for full execution
-
----
-
 ## 6. Key Technical Highlights
 
 ### Algorithm Selection and Validation
@@ -218,56 +191,8 @@ Then open `unsupervised_clean.ipynb` and **Run All** cells from top to bottom.
 - **Model persistence:** Ready for deployment (models can be saved as `.pkl` files)
 - **Scalable architecture:** Designed for batch processing and real-time inference
 
----
 
-## 7. Future Work and Deployment
+**The deployment code and instructions will live in a dedicated branch main .
 
-**Planned next steps (in a separate branch):**
 
-1. **Django Deployment:**
-   - Create a Django REST API that loads trained clustering models
-   - Endpoint to assign new candidates to clusters
-   - Endpoint to retrieve association rules matching candidate profile
-   - Dashboard for visualizing cluster distributions and rule quality
 
-2. **Model Persistence:**
-   - Save best models (K-Means, DBSCAN) as `.pkl` files
-   - Version control for model artifacts
-   - Model retraining pipeline with new data
-
-3. **Advanced Analysis:**
-   - Time-series clustering (track changes over years)
-   - Multi-objective optimization (balance cluster quality and interpretability)
-   - Ensemble clustering (combine K-Means, CAH, DBSCAN)
-
-4. **Production Features:**
-   - Real-time clustering API
-   - Batch processing for large datasets
-   - Monitoring and alerting for model drift
-
-**The deployment code and instructions will live in a dedicated branch named `deployment-django`.**
-
----
-
-## 8. File Structure
-
-```
-ML/
-├── unsupervised_clean.ipynb      # Main analysis notebook (clean, English version)
-├── unsupervised.ipynb             # Original exploratory notebook (French, working draft)
-├── requirements.txt               # Python dependencies
-├── README.md                      # This file
-└── .gitignore                     # Git ignore rules
-```
-
----
-
-## 9. Contact and Contributions
-
-For questions or collaboration opportunities, please open an issue or contact the repository maintainer.
-
-**Note:** This project is part of a larger educational data analysis portfolio. The original exploratory work (`unsupervised.ipynb`) is kept for reference, while `unsupervised_clean.ipynb` is the polished, recruiter-ready version.
-
----
-
-**Last updated:** 2024

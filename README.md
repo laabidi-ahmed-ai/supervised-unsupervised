@@ -32,8 +32,8 @@ This project builds a **binary classifier** (boarding vs no boarding) for French
 ---
 
 ## 2. Data Sources
-> Note: The original CSV and SQL Server backup are not included in this repo due to size and privacy constraints.  
-> The notebook contains all code and results; it can be adapted to new data with the same schema.
+> Note: The original CSV and SQL Server backup are not included in this repo due to size constraints.  
+> The notebook contains all code and results
 
 The modeling data is built from **two sources**:
 
@@ -152,5 +152,5 @@ Planned next steps (in a separate branch):
 
 - Add a **Django** project that loads the trained model 
 
-The deployment code and instructions will live in a dedicated branch for the supervised and unsupervised objectives named (deployment-django).
+The deployment code and instructions will live in a dedicated branch main for the supervised and unsupervised objectives .
 

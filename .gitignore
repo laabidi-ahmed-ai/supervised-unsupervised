@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# Data files (large CSVs, databases)
+*.csv
+*.db
+*.sqlite
+*.sql
+*.bak
+*.mdf
+*.ldf
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Model artifacts (if saved)
+*.pkl
+*.joblib
+*.h5
+*.model
+
+# Environment variables
+.env
+.env.local
+
+# Temporary files
+*.tmp
+*.temp
+
+# Personal preparation notes (not for public repo)
+PREP_NOTES.md

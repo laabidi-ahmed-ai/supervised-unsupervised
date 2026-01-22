@@ -5,11 +5,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <meta name="description" content="">
+        <meta name="description" content="Education Analytics Platform - ML-powered insights for French education system">
         <meta name="author" content="">
 
-        <title>Boarding Availability Prediction - Education Analytics</title>
+        <title>Education Analytics Platform - Home</title>
 
         <!-- CSS FILES -->                
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,22 +70,24 @@
                 }
             }
             
-            .prediction-form {
+            .feature-card {
                 background: #fff;
                 padding: 2rem;
                 border-radius: 10px;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                margin-bottom: 2rem;
+                transition: transform 0.3s ease;
             }
             
-            .result-card {
-                margin-top: 2rem;
-                padding: 1.5rem;
-                border-radius: 10px;
-                display: none;
+            .feature-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             }
             
-            .result-card.show {
-                display: block;
+            .feature-icon {
+                font-size: 3rem;
+                color: #667eea;
+                margin-bottom: 1rem;
             }
         </style>
     </head>
@@ -165,9 +166,9 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 col-12 text-center mb-5 mb-lg-0">
-                            <h2 class="text-white">Boarding Availability Prediction</h2>
-                            <h1 class="text-white mb-4 pb-2">Predict School Boarding Facilities</h1>
-                            <p class="text-white mb-4">Predict boarding availability based on school characteristics and features.</p>
+                            <h2 class="text-white">Education Analytics Platform</h2>
+                            <h1 class="text-white mb-4 pb-2">ML-Powered Insights for French Education System</h1>
+                            <p class="text-white mb-4">Advanced machine learning models for school analysis, prediction, and pattern discovery.</p>
                         </div>
                     </div>
                 </div>
@@ -179,34 +180,42 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 col-12 text-center mb-5">
-                            <h2 class="mb-lg-5 mb-4">Enter School Information</h2>
-                            <p class="lead">Fill in the school characteristics to predict boarding availability</p>
+                            <h2 class="mb-lg-5 mb-4">Platform Features</h2>
+                            <p class="lead">Explore our machine learning models and analytics tools</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-12 mb-4">
+                            <div class="feature-card text-center">
+                                <div class="feature-icon">
+                                    <i class="bi bi-house-door"></i>
+                                </div>
+                                <h4>Boarding Availability Prediction</h4>
+                                <p>Predict whether schools offer boarding facilities using XGBoost classification model (91% accuracy).</p>
+                                <a href="{% url 'boardinplusifrules:boarding_prediction' %}" class="btn custom-btn">Try It</a>
+                            </div>
                         </div>
 
-                        <div class="col-lg-10 col-12 mx-auto">
-                            <div class="prediction-form">
-                                <form id="boardingForm">
-                                    {% csrf_token %}
-                                    <div class="row">
-                                        {% for feature in features %}
-                                        <div class="col-md-6 col-12 mb-3">
-                                            <label for="{{ feature.name }}" class="form-label">{{ feature.label }}</label>
-                                            <input type="{{ feature.type }}" 
-                                                   class="form-control" 
-                                                   id="{{ feature.name }}" 
-                                                   name="{{ feature.name }}" 
-                                                   step="{{ feature.step }}"
-                                                   value="0"
-                                                   required>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                    <div class="text-center mt-4">
-                                        <button type="submit" class="btn custom-btn btn-lg">Predict Boarding Availability</button>
-                                    </div>
-                                </form>
+                        <div class="col-lg-4 col-md-6 col-12 mb-4">
+                            <div class="feature-card text-center">
+                                <div class="feature-icon">
+                                    <i class="bi bi-diagram-3"></i>
+                                </div>
+                                <h4>Association Rules Discovery</h4>
+                                <p>Discover meaningful patterns connecting candidate characteristics to exam outcomes using DBSCAN clustering and rule mining.</p>
+                                <a href="{% url 'boardinplusifrules:association_rules' %}" class="btn custom-btn">Explore</a>
+                            </div>
+                        </div>
 
-                                <div id="result" class="result-card"></div>
+                        <div class="col-lg-4 col-md-6 col-12 mb-4">
+                            <div class="feature-card text-center">
+                                <div class="feature-icon">
+                                    <i class="bi bi-graph-up"></i>
+                                </div>
+                                <h4>School Performance Analysis</h4>
+                                <p>Rank schools by scores, analyze temporal trajectories, and identify performance patterns.</p>
+                                <a href="{% url 'school_ranking_by_score' %}" class="btn custom-btn">View</a>
                             </div>
                         </div>
                     </div>
@@ -268,50 +277,5 @@
         <script src="{% static 'js/animated-headline.js' %}"></script>
         <script src="{% static 'js/modernizr.js' %}"></script>
         <script src="{% static 'js/custom.js' %}"></script>
-
-        <script>
-            $(document).ready(function() {
-                $('#boardingForm').on('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // Show loading
-                    $('#result').html('<div class="alert alert-info">Processing prediction...</div>').addClass('show');
-                    
-                    $.ajax({
-                        url: '{% url "boardinplusifrules:predict_boarding_api" %}',
-                        method: 'POST',
-                        data: $(this).serialize(),
-                        success: function(data) {
-                            if (data.success) {
-                                const predictionClass = data.prediction === 1 ? 'alert-success' : 'alert-warning';
-                                const icon = data.prediction === 1 ? 'bi-check-circle-fill' : '';
-                                const iconHtml = icon ? <i class="bi ${icon}"></i>  : '';
-                                $('#result').html(`
-                                    <div class="alert ${predictionClass}">
-                                        <h4>${iconHtml}${data.prediction_text}</h4>
-                                        <p class="mb-2"><strong>Probability:</strong> ${(data.probability_yes * 100).toFixed(2)}%</p>
-                                        <div class="progress mt-3" style="height: 25px;">
-                                            <div class="progress-bar ${data.prediction === 1 ? 'bg-success' : 'bg-warning'}" 
-                                                 role="progressbar" 
-                                                 style="width: ${(data.probability_yes * 100)}%" 
-                                                 aria-valuenow="${(data.probability_yes * 100)}" 
-                                                 aria-valuemin="0" 
-                                                 aria-valuemax="100">
-                                                ${(data.probability_yes * 100).toFixed(1)}%
-                                            </div>
-                                        </div>
-                                    </div>
-                                `).addClass('show');
-                            } else {
-                                $('#result').html(<div class="alert alert-danger">Error: ${data.error}</div>).addClass('show');
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            $('#result').html(<div class="alert alert-danger">Error: ${error}</div>).addClass('show');
-                        }
-                    });
-                });
-            });
-        </script>
     </body>
 </html>

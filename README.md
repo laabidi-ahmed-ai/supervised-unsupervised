@@ -1,6 +1,25 @@
 # Education Analytics Platform - ML Deployment
 
-## My Contribution: Boarding Prediction & Association Rules Analysis
+## 📁 Repository Structure
+
+This repository contains multiple ML objectives developed by a team:
+
+- **`main` branch** - Complete Django deployment (production-ready)
+  - All Django apps integrated
+  - Trained models (.pkl files)
+  - Web interfaces and APIs
+  
+- **`boarding-prediction` branch** - Training notebook
+  - `boarding1final.ipynb` - Model training, evaluation, comparison
+  
+- **`if-then-rules-discovery` branch** - Training notebook  
+  - `unsupervised_clean.ipynb` - Clustering and association rules analysis
+
+**For recruiters:** The `main` branch shows the deployed work. Training details are in the separate branches.
+
+---
+
+## My Contribution in the group project: Boarding Prediction & Association Rules Analysis
 
 This repository contains multiple ML objectives deployed in Django. **This README focuses on my specific contribution.**
 

@@ -1,0 +1,154 @@
+
+<div class="bi-container">
+    <div id="bi-nav"></div>
+    <div id="bi-loader">Loading...</div>
+    <iframe 
+        id="bi-iframe" 
+        src="https://app.powerbi.com/reportEmbed?reportId=60e3089e-b0e2-439e-9bf8-628a756ec72e&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730"
+        allowfullscreen 
+        allow="camera; geolocation; microphone"
+        loading="lazy"
+        scrolling="no"
+        frameborder="0"
+    ></iframe>
+</div>
+
+<style>
+/* Full page - no padding/margin */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    color: rgb(168, 240, 247);
+}
+
+/* Container takes full screen */
+.bi-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    z-index: 1;
+}
+
+/* Top nav bar */
+#bi-nav {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    z-index: 10;
+    background: rgba(0,0,0,0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+#bi-nav button {
+    padding: 5px 10px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 12px;
+    transition: 0.2s;
+}
+
+#bi-nav button:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+#bi-nav button.active {
+    background: rgba(255,255,255,0.9);
+    color: black;
+}
+
+/* Loader */
+#bi-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    background: rgba(0,0,0,0.8);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 5;
+    display: none;
+}
+
+/* Iframe full screen */
+#bi-iframe {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: none;
+    background: transparent;
+    z-index: 1;
+}
+
+/* Remove scrollbars inside iframe */
+#bi-iframe::-webkit-scrollbar,
+#bi-iframe *::-webkit-scrollbar { display: none; }
+#bi-iframe, #bi-iframe *, #bi-iframe iframe, #bi-iframe iframe * {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+</style>
+
+<script>
+const biPages = [
+    { id: "p1", title: "Report", embedUrl: "https://app.powerbi.com/reportEmbed?reportId=60e3089e-b0e2-439e-9bf8-628a756ec72e&autoAuth=true&ctid=604f1a96-cbe8-43f8-abbf-f8eaf5d85730" }
+];
+
+let i = 0;
+const n = document.getElementById("bi-nav"),
+      f = document.getElementById("bi-iframe"),
+      l = document.getElementById("bi-loader");
+
+function r() {
+    n.innerHTML = "";
+
+    // Home button -> go to main site homepage
+    const homeBtn = document.createElement("button");
+    homeBtn.textContent = "Home";
+    homeBtn.onclick = () => { window.location.href = "/"; }; // Django home view
+    n.appendChild(homeBtn);
+
+    // Power BI page buttons
+    biPages.forEach((p, x) => {
+        const b = document.createElement("button");
+        b.textContent = p.title;
+        b.className = x === i ? "active" : "";
+        b.onclick = () => c(x);
+        n.appendChild(b);
+    });
+}
+
+function c(x) {
+    if (x < 0 || x >= biPages.length) return;
+    l.style.display = "block";
+    i = x;
+    f.src = biPages[x].embedUrl + "&pageName=Report";
+    r();
+    setTimeout(() => l.style.display = "none", 2000);
+}
+
+// Initialize
+r();
+c(0);
+</script>
+

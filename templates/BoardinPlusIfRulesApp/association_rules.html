@@ -1,0 +1,457 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Candidate Clustering & Pattern Discovery - Education Analytics</title>
+
+        <!-- CSS FILES -->                
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+        <link href="{% static 'css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
+        
+        <!-- Custom dropdown hover styles -->
+        <style>
+            .navbar-nav .nav-item.dropdown .dropdown-toggle::after {
+                display: none !important;
+            }
+            
+            .navbar-nav {
+                margin-left: auto !important;
+                margin-right: auto !important;
+                width: fit-content;
+            }
+            
+            .navbar-nav .nav-link {
+                color: #ffffff !important;
+            }
+            
+            .navbar-nav .nav-link:hover {
+                color: #ffffff !important;
+            }
+            
+            @media (min-width: 992px) {
+                .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+                    display: block;
+                    margin-top: 0;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-menu {
+                    margin-top: 0;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    padding: 0.5rem 0;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-item {
+                    padding: 0.5rem 1.5rem;
+                    font-size: 14px;
+                    transition: background-color 0.2s ease;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-item:hover {
+                    background-color: #f8f9fa;
+                }
+            }
+            
+            @media (max-width: 991px) {
+                .navbar-nav {
+                    margin-left: 0 !important;
+                }
+            }
+            
+            .clustering-form {
+                background: #fff;
+                padding: 2rem;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            
+            .result-card {
+                margin-top: 2rem;
+                padding: 1.5rem;
+                border-radius: 10px;
+                display: none;
+            }
+            
+            .result-card.show {
+                display: block;
+            }
+            
+            .cluster-badge {
+                font-size: 1.5rem;
+                padding: 0.5rem 1.5rem;
+                border-radius: 50px;
+            }
+            
+            .rule-card {
+                background: #f8f9fa;
+                border-left: 4px solid #667eea;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 5px;
+            }
+            
+            .rule-antecedents {
+                color: #667eea;
+                font-weight: 600;
+            }
+            
+            .rule-consequents {
+                color: #28a745;
+                font-weight: 600;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <main>
+            <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="Education Analytics">
+        <span class="navbar-brand-text">
+          Education
+          <small>Analytics</small>
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="schoolTypologyDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">School Typology</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="schoolTypologyDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin1' %}">Classify by type/program (ULIS, SEGPA, GRETA)</a></li>
+              <li><a class="dropdown-item" href="#">Public/private</a></li>
+              <li><a class="dropdown-item" href="{% url 'predict' %}"> primary/middle/high</a></li>
+              <li><a class="dropdown-item" href="#">Canteen, boarding availability</a></li>
+              <li><a class="dropdown-item" href="#">Program clustering</a></li>
+              <li><a class="dropdown-item" href="{% url 'cantine:predict' %}">Canteen prediction (Cantine)</a></li>
+              <li><a class="dropdown-item" href="{% url 'formation:predict' %}">Formation clustering (Objectif Formation)</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+                                    <li><a class="dropdown-item" href="{% url 'objective_yassin2' %}">Cluster by region and performance</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'risk' %}">Detect regions at risk of too few schools</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+                                </ul>
+                            </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin2' %}">Cluster by region and performance</a></li>
+              <li><a class="dropdown-item" href="#">Detect regions at risk of too few schools</a></li>
+              <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="performanceAnomaliesDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Performance & Anomalies</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="performanceAnomaliesDropdown">
+              <li><a class="dropdown-item" href="{% url 'school_ranking_by_score' %}">School ranking by scores</a></li>
+              <li><a class="dropdown-item" href="{% url 'temporal_trajectory_clustering' %}">Temporal trajectory clustering</a></li>
+              <li><a class="dropdown-item" href="#">Identify anomalies (success rates, enrolment changes, gender gaps)</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="candidateAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Candidate Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="candidateAnalysisDropdown">
+              <li><a class="dropdown-item" href="#">Candidate segmentation (profile, performance)</a></li>
+              <li><a class="dropdown-item" href="#">Discover "if-then" rules for significant associations</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+            <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+                <div class="section-overlay"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3D405B" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-12 text-center mb-5 mb-lg-0">
+                            <h2 class="text-white">Candidate Clustering & Pattern Discovery</h2>
+                            <h1 class="text-white mb-4 pb-2">Find Candidate Profile & Patterns</h1>
+                            <p class="text-white mb-4">Enter candidate characteristics to discover their cluster and associated patterns.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+            </section>
+
+            <section class="section-padding" id="section_2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-12 text-center mb-5">
+                            <h2 class="mb-lg-5 mb-4">Enter Candidate Characteristics</h2>
+                            <p class="lead">Fill in the candidate profile to discover their cluster and associated patterns</p>
+                        </div>
+
+                        <div class="col-lg-10 col-12 mx-auto">
+                            <div class="clustering-form">
+                                <form id="clusteringForm">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        {% for feature in input_features %}
+                                        <div class="col-md-6 col-12 mb-3">
+                                            {% if feature.type == 'select' %}
+                                                <label for="{{ feature.name }}" class="form-label">{{ feature.label }}</label>
+                                                <select class="form-select" id="{{ feature.name }}" name="{{ feature.name }}" required>
+                                                    {% for value, label in feature.options %}
+                                                    <option value="{{ value }}">{{ label }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            {% elif feature.type == 'checkbox' %}
+                                                <div class="form-check mt-4">
+                                                    <input class="form-check-input" type="checkbox" id="{{ feature.name }}" name="{{ feature.name }}" value="1">
+                                                    <label class="form-check-label" for="{{ feature.name }}">
+                                                        {{ feature.label }}
+                                                    </label>
+                                                </div>
+                                            {% else %}
+                                                <label for="{{ feature.name }}" class="form-label">{{ feature.label }}</label>
+                                                <input type="{{ feature.type }}" 
+                                                       class="form-control" 
+                                                       id="{{ feature.name }}" 
+                                                       name="{{ feature.name }}" 
+                                                       step="{{ feature.step|default:'1' }}"
+                                                       value="0"
+                                                       required>
+                                            {% endif %}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="text-center mt-4">
+                                        <button type="submit" class="btn custom-btn btn-lg">Find Cluster & Patterns</button>
+                                    </div>
+                                </form>
+
+                                <div id="result" class="result-card"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-12 me-auto mb-5 mb-lg-0">
+                        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                            <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="">
+                            <span class="navbar-brand-text">
+                                Education
+                                <small>Analytics</small>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-3 col-12">
+                        <h5 class="site-footer-title mb-4">Platform Features</h5>
+                        <p class="d-flex border-bottom pb-3 mb-3 me-lg-3">
+                            <span>School Typology</span>
+                            Classification & Clustering
+                        </p>
+                        <p class="d-flex me-lg-3">
+                            <span>Geographic Analysis</span>
+                            Regional Insights
+                        </p>
+                        <br>
+                        <p class="copyright-text">Copyright © 2024 Education Analytics Platform</p>
+                    </div>
+
+                    <div class="col-lg-2 col-12 ms-auto">
+                        <ul class="social-icon mt-lg-5 mt-3 mb-4">
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-instagram"></a>
+                            </li>
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-twitter"></a>
+                            </li>
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-whatsapp"></a>
+                            </li>
+                        </ul>
+                        <p class="copyright-text">Design: <a rel="nofollow" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+                    </div>
+                </div>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#81B29A" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+        </footer>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/jquery.sticky.js' %}"></script>
+        <script src="{% static 'js/click-scroll.js' %}"></script>
+        <script src="{% static 'js/animated-headline.js' %}"></script>
+        <script src="{% static 'js/modernizr.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+
+        <script>
+            $(document).ready(function() {
+                // Gérer les checkboxes de voie (une seule voie possible)
+                $('input[name^="Voie_"]').on('change', function() {
+                    if ($(this).is(':checked')) {
+                        $('input[name^="Voie_"]').not(this).prop('checked', false);
+                    }
+                });
+                
+                $('#clusteringForm').on('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Show loading
+                    $('#result').html('<div class="alert alert-info"><i class="bi bi-hourglass-split"></i> Analyzing candidate profile...</div>').addClass('show');
+                    
+                    // Préparer les données du formulaire
+                    var formData = $(this).serialize();
+                    
+                    // Ajouter les checkboxes non cochées comme 0
+                    $('input[type="checkbox"]').each(function() {
+                        if (!$(this).is(':checked')) {
+                            formData += '&' + $(this).attr('name') + '=0';
+                        }
+                    });
+                    
+                    $.ajax({
+                        url: '{% url "boardinplusifrules:predict_cluster_api" %}',
+                        method: 'POST',
+                        data: formData,
+                        success: function(data) {
+                            if (data.success) {
+                                var clusterHtml = '';
+                                
+                                if (data.is_outlier) {
+                                    var suggestionHtml = '';
+                                    if (data.needs_more_info) {
+                                        var suggestions = [];
+                                        if (!data.filled_fields.some(f => f.includes('Sexe'))) {
+                                            suggestions.push('<strong>Gender</strong>');
+                                        }
+                                        if (!data.filled_fields.some(f => f.includes('Voie'))) {
+                                            suggestions.push('a <strong>Track</strong> (General, Technological, or Professional)');
+                                        }
+                                        
+                                        if (suggestions.length > 0) {
+                                            suggestionHtml = `
+                                                <div class="alert alert-info mt-3">
+                                                    <h6><i class="bi bi-info-circle"></i> To see patterns, please fill in:</h6>
+                                                    <ul class="mb-0">
+                                                        ${suggestions.map(s => `<li>${s}</li>`).join('')}
+                                                    </ul>
+                                                    <p class="mb-0 mt-2"><small>Association patterns are based primarily on the candidate's gender and track.</small></p>
+                                                </div>
+                                            `;
+                                        }
+                                    }
+                                    
+                                    clusterHtml = `
+                                        <div class="alert alert-warning">
+                                            <h4><i class="bi bi-exclamation-triangle-fill"></i> Unique Profile</h4>
+                                            <p class="mb-0">No significant association pattern was found for these characteristics.</p>
+                                        </div>
+                                        ${suggestionHtml}
+                                    `;
+                                } else {
+                                    var clusterInfo = '';
+                                    if (data.cluster !== 'N/A') {
+                                        clusterInfo = `<p class="mb-2">This candidate belongs to <span class="badge cluster-badge bg-primary">Cluster #${data.cluster}</span></p>`;
+                                    }
+                                    clusterHtml = `
+                                        <div class="alert alert-success">
+                                            <h4>Profile Analysis</h4>
+                                            ${clusterInfo}
+                                            <p class="mb-0">Based on the entered characteristics, ${data.total_rules_found} association pattern(s) were found. These patterns reveal the typical trends for this type of profile.</p>
+                                        </div>
+                                    `;
+                                }
+                                
+                                // Afficher les règles d'association
+                                if (data.matching_rules && data.matching_rules.length > 0) {
+                                    clusterHtml += `
+                                        <div class="mt-4">
+                                            <h5>Discovered Patterns (${data.total_rules_found} rules found)</h5>
+                                            <p class="text-muted">Based on the entered characteristics, here are the associated patterns:</p>
+                                    `;
+                                    
+                                    data.matching_rules.forEach(function(rule, index) {
+                                        var ifText = rule.if_text || rule.antecedents.join(' + ');
+                                        var thenText = rule.then_text || rule.consequents.join(' + ');
+                                        var confidencePercent = (rule.confidence * 100).toFixed(1);
+                                        var partialNote = rule.is_partial_match ? `<small class="text-info d-block mt-1"><i class="bi bi-info-circle"></i> Pattern based on ${(rule.match_ratio * 100).toFixed(0)}% of entered characteristics</small>` : '';
+                                        
+                                        clusterHtml += `
+                                            <div class="rule-card">
+                                                <div class="mb-2">
+                                                    <strong class="rule-antecedents">If :</strong> ${ifText}
+                                                </div>
+                                                <div class="mb-2">
+                                                    <strong class="rule-consequents">Then :</strong> ${thenText}
+                                                </div>
+                                                ${partialNote}
+                                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                                    <small class="text-muted">Probability: <strong>${confidencePercent}%</strong></small>
+                                                    <small class="text-muted">Frequency: <strong>${(rule.support * 100).toFixed(1)}%</strong></small>
+                                                    <small class="text-muted">Lift: <strong>${rule.lift.toFixed(2)}x</strong></small>
+                                                </div>
+                                            </div>
+                                        `;
+                                    });
+                                    
+                                    clusterHtml += '</div>';
+                                } else {
+                                    clusterHtml += `
+                                        <div class="mt-4 alert alert-info">
+                                            <p class="mb-0">No specific association rule found for this profile. The candidate may have a unique profile or require more characteristics.</p>
+                                        </div>
+                                    `;
+                                }
+                                
+                                $('#result').html(clusterHtml).addClass('show');
+                            } else {
+                                $('#result').html(`<div class="alert alert-danger">Error: ${data.error}</div>`).addClass('show');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            var errorMsg = 'An error occurred';
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                errorMsg = xhr.responseJSON.error;
+                            }
+                            $('#result').html(`<div class="alert alert-danger">Error: ${errorMsg}</div>`).addClass('show');
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

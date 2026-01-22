@@ -1,0 +1,590 @@
+{% load static %}
+
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Tiya Golf Club - Free HTML CSS Template</title>
+
+        <!-- CSS FILES -->                
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
+        
+        <!-- Custom dropdown hover styles -->
+        <style>
+            /* Remove dropdown toggle caret/arrow */
+            .navbar-nav .nav-item.dropdown .dropdown-toggle::after {
+                display: none !important;
+            }
+            
+            /* Center navbar items */
+            .navbar-nav {
+                margin-left: auto !important;
+                margin-right: auto !important;
+                width: fit-content;
+            }
+            
+            /* Enable dropdown on hover for desktop */
+            @media (min-width: 992px) {
+                .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+                    display: block;
+                    margin-top: 0;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-menu {
+                    margin-top: 0;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    padding: 0.5rem 0;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-item {
+                    padding: 0.5rem 1.5rem;
+                    font-size: 14px;
+                    transition: background-color 0.2s ease;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-item:hover {
+                    background-color: #f8f9fa;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-header {
+                    padding: 0.5rem 1.5rem 0.25rem;
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    color: #6c757d;
+                    margin-bottom: 0.25rem;
+                }
+            }
+            
+            /* Mobile: keep click behavior */
+            @media (max-width: 991px) {
+                .navbar-nav {
+                    margin-left: 0 !important;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-menu {
+                    border-radius: 8px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    padding: 0.5rem 0;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-item {
+                    padding: 0.5rem 1.5rem;
+                    font-size: 14px;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-header {
+                    padding: 0.5rem 1.5rem 0.25rem;
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    color: #6c757d;
+                    margin-bottom: 0.25rem;
+                }
+            }
+            
+            /* Card header colors matching nav and footer */
+            .card-header-nav {
+                background-color: #f8f9fa !important;
+                border-bottom: 2px solid #dee2e6;
+            }
+            
+            .card-header-footer {
+                background-color: #81B29A !important;
+                color: white !important;
+            }
+            
+            /* Button colors matching nav and footer */
+            .btn-nav {
+                background-color: #f8f9fa !important;
+                color: #333 !important;
+                border: 1px solid #dee2e6 !important;
+            }
+            
+            .btn-nav:hover {
+                background-color: #e2e6ea !important;
+                color: #333 !important;
+            }
+            
+            .btn-footer {
+                background-color: #81B29A !important;
+                color: white !important;
+                border: 1px solid #6b9584 !important;
+            }
+            
+            .btn-footer:hover {
+                background-color: #6b9584 !important;
+                color: white !important;
+            }
+        </style>
+
+<body>
+         </head>
+    
+
+            <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="Education Analytics">
+        <span class="navbar-brand-text">
+          Education
+          <small>Analytics</small>
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="schoolTypologyDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">School Typology</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="schoolTypologyDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin1' %}">Classify by type/program (ULIS, SEGPA, GRETA)</a></li>
+              <li><a class="dropdown-item" href="#">Public/private</a></li>
+              <li><a class="dropdown-item" href="{% url 'predict' %}"> primary/middle/high</a></li>
+              <li><a class="dropdown-item" href="#">Canteen, boarding availability</a></li>
+              <li><a class="dropdown-item" href="#">Program clustering</a></li>
+              <li><a class="dropdown-item" href="{% url 'cantine:predict' %}">Canteen prediction (Cantine)</a></li>
+              <li><a class="dropdown-item" href="{% url 'formation:predict' %}">Formation clustering (Objectif Formation)</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+                                    <li><a class="dropdown-item" href="#">Cluster by region and performance</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'risk' %}">Detect regions at risk of too few schools</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+                                </ul>
+                            </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin2' %}">Cluster by region and performance</a></li>
+              <li><a class="dropdown-item" href="#">Detect regions at risk of too few schools</a></li>
+              <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="performanceAnomaliesDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Performance & Anomalies</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="performanceAnomaliesDropdown">
+              <li><a class="dropdown-item" href="{% url 'school_ranking_by_score' %}">School ranking by scores</a></li>
+              <li><a class="dropdown-item" href="{% url 'temporal_trajectory_clustering' %}">Temporal trajectory clustering</a></li>
+              <li><a class="dropdown-item" href="#">Identify anomalies (success rates, enrolment changes, gender gaps)</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="candidateAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Candidate Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="candidateAnalysisDropdown">
+              <li><a class="dropdown-item" href="#">Candidate segmentation (profile, performance)</a></li>
+              <li><a class="dropdown-item" href="#">Discover "if-then" rules for significant associations</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+                        <main>
+                <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+                    <div class="section-overlay"></div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3D405B" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6 col-12 mb-5 mb-lg-0">
+                                <h2 class="text-white">Typology Classifier</h2>
+                                <h1 class="cd-headline rotate-1 text-white mb-4 pb-2">
+                                    <span>Classify By</span>
+                                    <span class="cd-words-wrapper">
+                                        <b class="is-visible">Ulis</b>
+                                        <b>Greta</b>
+                                        <b>Segpa </b>
+                                    </span>
+                                </h1>
+                                <p class="text-white mb-4">Advanced machine learning algorithms to classify schools by type and program, including specialized programs like ULIS, SEGPA, and GRETA.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+                </section>
+
+                <section class="py-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 mb-5">
+                                <h3 class="mb-4 text-center">Predictions Interface</h3>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Box 1: Model Selection and Data Extraction -->
+                            <div class="col-lg-6 mb-4">
+                                <div class="card shadow-sm h-100">
+                                    <div class="card-header card-header-nav">
+                                        <h5 class="mb-0">Step 1: Select Model & Extract Data</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="text-muted mb-4">Choose a model type to extract sample data from CSV:</p>
+                                        
+                                        <div class="d-grid gap-2 mb-4">
+                                            <button type="button" class="btn btn-nav py-2" id="btn-ulis" onclick="selectModel('ulis')">
+                                                <i class="bi bi-gear"></i> ULIS Model
+                                            </button>
+                                            <button type="button" class="btn btn-nav py-2" id="btn-segpa" onclick="selectModel('segpa')">
+                                                <i class="bi bi-gear"></i> SEGPA Model
+                                            </button>
+                                            <button type="button" class="btn btn-nav py-2" id="btn-greta" onclick="selectModel('greta')">
+                                                <i class="bi bi-gear"></i> GRETA Model
+                                            </button>
+                                        </div>
+
+                                        <div class="d-grid gap-2 mb-4">
+                                            <button type="button" class="btn btn-nav py-2" id="btn-dummy-data" onclick="generateDummyData()">
+                                                <i class="bi bi-lightning-charge"></i> Generate Dummy Data
+                                            </button>
+                                        </div>
+
+                                        <div id="data-display" class="alert alert-light border" style="display: none; max-height: 400px; overflow-y: auto;">
+                                            <h6 class="mb-3">Extracted Data:</h6>
+                                            <div id="data-content" class="small">
+                                                <!-- Data will be displayed here -->
+                                            </div>
+                                        </div>
+
+                                        <div id="loading-spinner" class="text-center" style="display: none;">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            <p class="mt-2">Extracting data...</p>
+                                        </div>
+
+                                        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Box 2: Run Model and Display Results -->
+                            <div class="col-lg-6 mb-4">
+                                <div class="card shadow-sm h-100">
+                                    <div class="card-header card-header-footer">
+                                        <h5 class="mb-0">Step 2: Run Prediction Model</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="text-muted mb-4">Run the model with extracted data to get predictions:</p>
+                                        
+                                        <button type="button" class="btn btn-footer btn-lg w-100 mb-4" id="btn-run-model" onclick="runPrediction()" disabled>
+                                            <i class="bi bi-play-circle"></i> Run Model
+                                        </button>
+
+                                        <div id="results-display" class="alert alert-light border" style="display: none; max-height: 400px; overflow-y: auto;">
+                                            <h6 class="mb-3">Prediction Results:</h6>
+                                            <div id="results-content" class="small">
+                                                <!-- Results will be displayed here -->
+                                            </div>
+                                        </div>
+
+                                        <div id="results-loading" class="text-center" style="display: none;">
+                                            <div class="spinner-border text-success" role="status">
+                                                <span class="visually-hidden">Processing...</span>
+                                            </div>
+                                            <p class="mt-2">Running prediction model...</p>
+                                        </div>
+
+                                        <div id="results-error" class="alert alert-danger" style="display: none;"></div>
+
+                                        <div id="confidence-display" style="display: none;">
+                                            <div class="mt-4">
+                                                <h6>Confidence Metrics:</h6>
+                                                <div id="confidence-content" class="small">
+                                                    <!-- Confidence metrics will be displayed here -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <script>
+                    let selectedModel = null;
+                    let extractedData = null;
+
+                    function selectModel(model) {
+                        selectedModel = model.toLowerCase();
+                        document.getElementById('data-display').style.display = 'none';
+                        document.getElementById('error-message').style.display = 'none';
+                        document.getElementById('loading-spinner').style.display = 'block';
+                        document.getElementById('btn-run-model').disabled = true;
+
+                        // Update button states
+                        document.getElementById('btn-ulis').classList.remove('active');
+                        document.getElementById('btn-segpa').classList.remove('active');
+                        document.getElementById('btn-greta').classList.remove('active');
+                        document.getElementById('btn-' + model).classList.add('active');
+
+                        // Fetch data from backend
+                        fetch('{% url "extract_csv_data" %}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: JSON.stringify({ model: selectedModel })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('loading-spinner').style.display = 'none';
+                            if (data.success) {
+                                extractedData = data.data;
+                                displayData(data.data);
+                                document.getElementById('btn-run-model').disabled = false;
+                            } else {
+                                showError('error-message', 'Failed to extract data: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            document.getElementById('loading-spinner').style.display = 'none';
+                            showError('error-message', 'Error: ' + error.message);
+                        });
+                    }
+
+                    function generateDummyData() {
+                        // Generate random dummy data for 31 features (used in ULIS, SEGPA, GRETA models)
+                        const dummyData = {
+                            'ecole_maternelle': Math.floor(Math.random() * 100),
+                            'ecole_elementaire': Math.floor(Math.random() * 100),
+                            'etat': Math.floor(Math.random() * 2),
+                            'type_contrat_prive': Math.floor(Math.random() * 2),
+                            'code_type_contrat_prive': Math.floor(Math.random() * 5),
+                            'code_commune': Math.floor(Math.random() * 10000),
+                            'taux_reussite': Math.random() * 100,
+                            'taux_mentions': Math.random() * 100,
+                            'Nombre d\'inscrits': Math.floor(Math.random() * 500),
+                            'longitude_x': (Math.random() * 8) - 5,
+                            'latitude_x': (Math.random() * 9) + 42,
+                            'total_eleves': Math.floor(Math.random() * 1000),
+                            'feature_1': Math.random() * 100,
+                            'feature_2': Math.random() * 100,
+                            'feature_3': Math.random() * 100,
+                            'feature_4': Math.random() * 100,
+                            'feature_5': Math.random() * 100,
+                            'feature_6': Math.random() * 100,
+                            'feature_7': Math.random() * 100,
+                            'feature_8': Math.random() * 100,
+                            'feature_9': Math.random() * 100,
+                            'feature_10': Math.random() * 100,
+                            'feature_11': Math.random() * 100,
+                            'feature_12': Math.random() * 100,
+                            'feature_13': Math.random() * 100,
+                            'feature_14': Math.random() * 100,
+                            'feature_15': Math.random() * 100,
+                            'feature_16': Math.random() * 100,
+                            'feature_17': Math.random() * 100,
+                            'feature_18': Math.random() * 100,
+                            'feature_19': Math.random() * 100
+                        };
+                        
+                        extractedData = dummyData;
+                        displayData(dummyData);
+                        document.getElementById('btn-run-model').disabled = false;
+                        
+                        // Show success message
+                        const successMsg = document.createElement('div');
+                        successMsg.className = 'alert alert-success mt-3';
+                        successMsg.textContent = 'Dummy data generated! Now select a model and click "Run Model" to test.';
+                        document.getElementById('data-content').parentElement.parentElement.appendChild(successMsg);
+                        setTimeout(() => successMsg.remove(), 5000);
+                    }
+
+                    function displayData(data) {
+                        const content = document.getElementById('data-content');
+                        content.innerHTML = '';
+                        
+                        if (typeof data === 'object') {
+                            for (const [key, value] of Object.entries(data)) {
+                                const row = document.createElement('div');
+                                row.className = 'mb-2 pb-2 border-bottom';
+                                const displayValue = typeof value === 'number' ? value.toFixed(2) : value;
+                                row.innerHTML = `<strong>${key}:</strong> <span class="text-muted">${displayValue}</span>`;
+                                content.appendChild(row);
+                            }
+                        } else {
+                            content.textContent = JSON.stringify(data, null, 2);
+                        }
+                        
+                        document.getElementById('data-display').style.display = 'block';
+                    }
+
+                    function runPrediction() {
+                        if (!selectedModel || !extractedData) {
+                            showError('results-error', 'Please select a model and extract data first.');
+                            return;
+                        }
+
+                        document.getElementById('results-display').style.display = 'none';
+                        document.getElementById('results-error').style.display = 'none';
+                        document.getElementById('results-loading').style.display = 'block';
+                        document.getElementById('btn-run-model').disabled = true;
+
+                        fetch('{% url "run_prediction" %}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: JSON.stringify({ 
+                                model: selectedModel,
+                                data: extractedData
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            document.getElementById('results-loading').style.display = 'none';
+                            if (result.success) {
+                                displayResults(result.prediction, result.confidence);
+                                document.getElementById('btn-run-model').disabled = false;
+                            } else {
+                                showError('results-error', 'Prediction failed: ' + result.message);
+                                document.getElementById('btn-run-model').disabled = false;
+                            }
+                        })
+                        .catch(error => {
+                            document.getElementById('results-loading').style.display = 'none';
+                            showError('results-error', 'Error: ' + error.message);
+                            document.getElementById('btn-run-model').disabled = false;
+                        });
+                    }
+
+                    function displayResults(prediction, confidence) {
+                        const content = document.getElementById('results-content');
+                        content.innerHTML = `
+                            <div class="alert alert-success mb-3">
+                                <strong>Prediction Result:</strong><br>
+                                <span class="fs-5">${prediction}</span>
+                            </div>
+                        `;
+
+                        if (confidence) {
+                            const confContent = document.getElementById('confidence-content');
+                            confContent.innerHTML = '';
+                            
+                            if (typeof confidence === 'object') {
+                                for (const [key, value] of Object.entries(confidence)) {
+                                    const row = document.createElement('div');
+                                    row.className = 'mb-2';
+                                    const percentage = (value * 100).toFixed(2);
+                                    row.innerHTML = `
+                                        <strong>${key}:</strong> ${percentage}%
+                                        <div class="progress mt-1">
+                                            <div class="progress-bar" role="progressbar" style="width: ${percentage}%;" 
+                                                 aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    `;
+                                    confContent.appendChild(row);
+                                }
+                            }
+                            document.getElementById('confidence-display').style.display = 'block';
+                        }
+
+                        document.getElementById('results-display').style.display = 'block';
+                    }
+
+                    function showError(elementId, message) {
+                        const errorDiv = document.getElementById(elementId);
+                        errorDiv.textContent = message;
+                        errorDiv.style.display = 'block';
+                    }
+                </script>
+                
+            </main>
+            <body>
+            
+
+
+
+
+            </body>
+            <!-- FOOTER SECTION -->
+              <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-12 me-auto mb-5 mb-lg-0">
+                        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                            <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="">
+                            <span class="navbar-brand-text">
+                                Education
+                                <small>Analytics</small>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-3 col-12">
+                        <h5 class="site-footer-title mb-4">Platform Features</h5>
+                        <p class="copyright-text">Copyright © 2024 Education Analytics Platform</p>
+                    </div>
+
+                    <div class="col-lg-2 col-12 ms-auto">
+                        <ul class="social-icon mt-lg-5 mt-3 mb-4">
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-instagram"></a>
+                            </li>
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-twitter"></a>
+                            </li>
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-whatsapp"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#81B29A" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+        </footer>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/jquery.sticky.js' %}"></script>
+        <script src="{% static 'js/click-scroll.js' %}"></script>
+        <script src="{% static 'js/animated-headline.js' %}"></script>
+        <script src="{% static 'js/modernizr.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+
+    </body>
+</html>
+</html>

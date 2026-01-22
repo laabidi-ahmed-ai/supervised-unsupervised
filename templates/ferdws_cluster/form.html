@@ -1,0 +1,273 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Academies Clustering </title>
+
+        <!-- CSS FILES -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+        <link href="{% static 'css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
+
+        <style>
+            .form-section {
+                background-color: rgba(255, 255, 255, 0.95);
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                padding: 40px;
+                margin: 40px auto;
+                max-width: 900px;
+            }
+            .form-label {
+                font-weight: 600;
+                color: #3D405B;
+            }
+            .form-control:focus {
+                border-color: #81B29A;
+                box-shadow: 0 0 0 0.25rem rgba(129, 178, 154, 0.25);
+            }
+            .btn-submit {
+                background-color: #81B29A;
+                border: none;
+                padding: 12px 30px;
+                font-size: 1.1rem;
+                border-radius: 50px;
+                transition: all 0.3s ease;
+            }
+            .btn-submit:hover {
+                background-color: #6a9b81;
+                transform: translateY(-2px);
+            }
+            .result-block {
+                background-color: #f0f8f4;
+                border-left: 5px solid #81B29A;
+                padding: 20px;
+                border-radius: 8px;
+                margin-top: 40px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <!-- Navigation (même que ton site principal) -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="Education Analytics">
+        <span class="navbar-brand-text">
+          Education
+          <small>Analytics</small>
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="schoolTypologyDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">School Typology</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="schoolTypologyDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin1' %}">Classify by type/program (ULIS, SEGPA, GRETA)</a></li>
+              <li><a class="dropdown-item" href="#">Public/private</a></li>
+              <li><a class="dropdown-item" href="{% url 'predict' %}"> primary/middle/high</a></li>
+              <li><a class="dropdown-item" href="#">Canteen, boarding availability</a></li>
+              <li><a class="dropdown-item" href="#">Program clustering</a></li>
+              <li><a class="dropdown-item" href="{% url 'cantine:predict' %}">Canteen prediction (Cantine)</a></li>
+              <li><a class="dropdown-item" href="{% url 'formation:predict' %}">Formation clustering (Objectif Formation)</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+                                    <li><a class="dropdown-item" href="{% url 'objective_yassin2' %}">Cluster by region and performance</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'risk' %}">Detect regions at risk of too few schools</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+                                </ul>
+                            </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin2' %}">Cluster by region and performance</a></li>
+              <li><a class="dropdown-item" href="#">Detect regions at risk of too few schools</a></li>
+              <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="performanceAnomaliesDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Performance & Anomalies</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="performanceAnomaliesDropdown">
+              <li><a class="dropdown-item" href="{% url 'school_ranking_by_score' %}">School ranking by scores</a></li>
+              <li><a class="dropdown-item" href="{% url 'temporal_trajectory_clustering' %}">Temporal trajectory clustering</a></li>
+              <li><a class="dropdown-item" href="#">Identify anomalies (success rates, enrolment changes, gender gaps)</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="candidateAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Candidate Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="candidateAnalysisDropdown">
+              <li><a class="dropdown-item" href="#">Candidate segmentation (profile, performance)</a></li>
+              <li><a class="dropdown-item" href="#">Discover "if-then" rules for significant associations</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+        <main>
+
+            <!-- Hero simplifié pour la page formulaire -->
+            <section class="hero-section d-flex justify-content-center align-items-center">
+                <div class="section-overlay"></div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-12 text-center mx-auto">
+                            <h1 class="text-white mb-4">Academies  Clustering</h1>
+                            <p class="text-white lead">Enter the Academy characteristics to predict its cluster using our machine learning model.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+            </section>
+
+            <!-- Formulaire -->
+            <section class="section-padding">
+                <div class="container">
+                    <div class="form-section">
+                        <h2 class="text-center mb-5">Predict the Cluster of the academy</h2>
+
+                        <form method="post" class="row g-4">
+                            {% csrf_token %}
+
+                            <!-- Colonnes principales obligatoires -->
+                            <div class="col-md-6">
+                                <label class="form-label">SEGPA</label>
+                                {{ form.SEGPA }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Hébergement</label>
+                                {{ form.Hebergement }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Restauration</label>
+                                {{ form.Restauration }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">ULIS</label>
+                                {{ form.ulis }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Code Nature</label>
+                                {{ form.code_nature }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Code Région</label>
+                                {{ form.code_region }}
+                            </div>
+
+                            <!-- Types d'établissement -->
+                            <div class="col-12 mt-5">
+                                <h4>Type d'établissement</h4>
+                                <div class="row g-3">
+                                    {% for field in form %}
+                                        {% if 'type_etablissement_' in field.name %}
+                                            <div class="col-md-4">
+                                                <label class="form-label">{{ field.label }}</label>
+                                                {{ field }}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Autres champs optionnels (groupe pour ne pas surcharger) -->
+                          
+
+                            <!-- Bouton submit -->
+                            <div class="col-12 text-center mt-5">
+                                <button type="submit" class="btn btn-submit text-white px-5">Predict the Cluster</button>
+                            </div>
+                        </form>
+
+                        <!-- Résultat -->
+                        {% if result %}
+                            <div class="result-block">
+                                <h3 class="text-success mb-3">
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                    Cluster predicted : <strong>{{ result }}</strong>
+                                </h3>
+                                <p>This prediction is based on the entered characteristics and our clustering model trained on national school establishment data.</p>
+                            </div>
+                        {% endif %}
+
+                        {% if form.errors %}
+                            <div class="alert alert-danger mt-4">
+                                <strong>Erreur(s) dans le formulaire :</strong>
+                                <ul>
+                                    {% for field, errors in form.errors.items %}
+                                        {% for error in errors %}
+                                            <li><strong>{{ field }}</strong>: {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer (même que ton site principal) -->
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-12 me-auto mb-5 mb-lg-0">
+                        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                            <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="">
+                            <span class="navbar-brand-text">
+                                Education
+                                <small>Analytics</small>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-12">
+                        <p class="copyright-text">Copyright © 2026 Education Analytics Platform</p>
+                    </div>
+                    <div class="col-lg-2 col-12 ms-auto">
+                        <p class="copyright-text">Design: <a rel="nofollow" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+                    </div>
+                </div>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#81B29A" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+        </footer>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/jquery.sticky.js' %}"></script>
+        <script src="{% static 'js/click-scroll.js' %}"></script>
+        <script src="{% static 'js/animated-headline.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+    </body>
+</html>

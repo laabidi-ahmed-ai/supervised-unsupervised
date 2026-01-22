@@ -1,0 +1,430 @@
+[
+  {
+    "antecedents": [
+      "Mention_AB",
+      "Sexe_Female"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.20060931765566486,
+    "confidence": 0.7131606554470368,
+    "lift": 1.207727871914175
+  },
+  {
+    "antecedents": [
+      "Sexe_Female",
+      "Mention_B"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.20060931765566486,
+    "confidence": 0.8312838000757811,
+    "lift": 1.2079456221800084
+  },
+  {
+    "antecedents": [
+      "Mention_AB"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.5180987294105912,
+    "confidence": 0.7528537089156512,
+    "lift": 1.2749475181878125
+  },
+  {
+    "antecedents": [
+      "Mention_B"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.5180987294105912,
+    "confidence": 0.8773931527676108,
+    "lift": 1.2749475181878125
+  },
+  {
+    "antecedents": [
+      "Mention_AB",
+      "Reussite"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.5180987294105912,
+    "confidence": 0.7528537089156512,
+    "lift": 1.2749475181878125
+  },
+  {
+    "antecedents": [
+      "Reussite",
+      "Mention_B"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.5180987294105912,
+    "confidence": 0.8773931527676108,
+    "lift": 1.2749475181878125
+  },
+  {
+    "antecedents": [
+      "Mention_AB"
+    ],
+    "consequents": [
+      "Reussite",
+      "Mention_B"
+    ],
+    "support": 0.5180987294105912,
+    "confidence": 0.7528537089156512,
+    "lift": 1.2749475181878125
+  },
+  {
+    "antecedents": [
+      "Mention_B"
+    ],
+    "consequents": [
+      "Mention_AB",
+      "Reussite"
+    ],
+    "support": 0.5180987294105912,
+    "confidence": 0.8773931527676108,
+    "lift": 1.2749475181878125
+  },
+  {
+    "antecedents": [
+      "Mention_AB",
+      "Voie_professionnelle"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.4042569109340515,
+    "confidence": 0.733501255646639,
+    "lift": 1.242174401745695
+  },
+  {
+    "antecedents": [
+      "Voie_professionnelle",
+      "Mention_B"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.4042569109340515,
+    "confidence": 0.8625359157177822,
+    "lift": 1.253358339557849
+  },
+  {
+    "antecedents": [
+      "Mention_B"
+    ],
+    "consequents": [
+      "Mention_AB",
+      "Voie_professionnelle"
+    ],
+    "support": 0.4042569109340515,
+    "confidence": 0.6846035812827298,
+    "lift": 1.2421744017456953
+  },
+  {
+    "antecedents": [
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.33972576549167277,
+    "confidence": 0.900326041460137,
+    "lift": 1.3082714955076558
+  },
+  {
+    "antecedents": [
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.3320324027315386,
+    "confidence": 0.8799374352873791,
+    "lift": 1.49016208061995
+  },
+  {
+    "antecedents": [
+      "Reussite",
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.33972576549167277,
+    "confidence": 0.900326041460137,
+    "lift": 1.3082714955076558
+  },
+  {
+    "antecedents": [
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_AB",
+      "Reussite"
+    ],
+    "support": 0.33972576549167277,
+    "confidence": 0.900326041460137,
+    "lift": 1.3082714955076558
+  },
+  {
+    "antecedents": [
+      "Reussite",
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.3320324027315386,
+    "confidence": 0.8799374352873791,
+    "lift": 1.49016208061995
+  },
+  {
+    "antecedents": [
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Reussite",
+      "Mention_B"
+    ],
+    "support": 0.3320324027315386,
+    "confidence": 0.8799374352873791,
+    "lift": 1.49016208061995
+  },
+  {
+    "antecedents": [
+      "Mention_AB",
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.3171901561532355,
+    "confidence": 0.9336652923400663,
+    "lift": 1.5811494759075886
+  },
+  {
+    "antecedents": [
+      "Mention_AB",
+      "Mention_B"
+    ],
+    "consequents": [
+      "Mention_TB"
+    ],
+    "support": 0.3171901561532355,
+    "confidence": 0.6122195213913824,
+    "lift": 1.6224768156786555
+  },
+  {
+    "antecedents": [
+      "Mention_TB",
+      "Mention_B"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.3171901561532355,
+    "confidence": 0.9552988007911274,
+    "lift": 1.3881528837495192
+  },
+  {
+    "antecedents": [
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_AB",
+      "Mention_B"
+    ],
+    "support": 0.3171901561532355,
+    "confidence": 0.8406031767012535,
+    "lift": 1.6224768156786558
+  },
+  {
+    "antecedents": [
+      "Voie_professionnelle",
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.25388928374003,
+    "confidence": 0.8801619549868879,
+    "lift": 1.2789708884485504
+  },
+  {
+    "antecedents": [
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_AB",
+      "Voie_professionnelle"
+    ],
+    "support": 0.25388928374003,
+    "confidence": 0.6728460335293989,
+    "lift": 1.2208409976476253
+  },
+  {
+    "antecedents": [
+      "Voie_professionnelle",
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.24692327834511651,
+    "confidence": 0.8560127950203164,
+    "lift": 1.44964602767261
+  },
+  {
+    "antecedents": [
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Voie_professionnelle",
+      "Mention_B"
+    ],
+    "support": 0.24692327834511651,
+    "confidence": 0.6543850373405591,
+    "lift": 1.3962175590527695
+  },
+  {
+    "antecedents": [
+      "Sexe_Female",
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.1358994501178319,
+    "confidence": 0.8650457696174401,
+    "lift": 1.2570054297936104
+  },
+  {
+    "antecedents": [
+      "Sexe_Female",
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.13382128621720138,
+    "confidence": 0.8518175564844701,
+    "lift": 1.4425414482621068
+  },
+  {
+    "antecedents": [
+      "Sexe_Male",
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.15317314845987273,
+    "confidence": 0.9220626501200961,
+    "lift": 1.3398571480482733
+  },
+  {
+    "antecedents": [
+      "Sexe_Male",
+      "Mention_TB"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.14944907874994284,
+    "confidence": 0.8996447157726181,
+    "lift": 1.523536092127545
+  },
+  {
+    "antecedents": [
+      "Mention_TB",
+      "Voie_technologique"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.06939820529765542,
+    "confidence": 0.9576164257857308,
+    "lift": 1.6217103946926168
+  },
+  {
+    "antecedents": [
+      "Voie_technologique",
+      "Mention_B"
+    ],
+    "consequents": [
+      "Mention_TB"
+    ],
+    "support": 0.06939820529765542,
+    "confidence": 0.6708047085291873,
+    "lift": 1.7777366604762506
+  },
+  {
+    "antecedents": [
+      "Mention_TB",
+      "Voie_technologique"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.0699219026006143,
+    "confidence": 0.9648428538655656,
+    "lift": 1.4020214291585242
+  },
+  {
+    "antecedents": [
+      "Mention_AB",
+      "Voie_technologique"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.09615248735437266,
+    "confidence": 0.8157263751763046,
+    "lift": 1.3814215235112715
+  },
+  {
+    "antecedents": [
+      "Mention_B",
+      "Voie_technologique"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.09615248735437266,
+    "confidence": 0.9294122373548672,
+    "lift": 1.3505368963174713
+  },
+  {
+    "antecedents": [
+      "Sexe_Male",
+      "Mention_AB"
+    ],
+    "consequents": [
+      "Mention_B"
+    ],
+    "support": 0.23861477907039572,
+    "confidence": 0.7841503558111265,
+    "lift": 1.3279479641103777
+  },
+  {
+    "antecedents": [
+      "Sexe_Male",
+      "Mention_B"
+    ],
+    "consequents": [
+      "Mention_AB"
+    ],
+    "support": 0.23861477907039572,
+    "confidence": 0.9098112549721874,
+    "lift": 1.3220545406437205
+  }
+]

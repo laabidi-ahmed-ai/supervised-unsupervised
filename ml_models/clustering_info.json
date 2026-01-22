@@ -1,0 +1,34 @@
+{
+  "clustering_features": [
+    "Sexe_Male",
+    "Voie_generale",
+    "Voie_technologique",
+    "Voie_professionnelle",
+    "Reussite",
+    "Mention_TB",
+    "Mention_B",
+    "Mention_AB",
+    "Sans_Mention",
+    "Average_Score_moyen",
+    "Hebergement",
+    "Restauration"
+  ],
+  "association_features": [
+    "Sexe_Male",
+    "Sexe_Female",
+    "Voie_generale",
+    "Voie_technologique",
+    "Voie_professionnelle",
+    "Hebergement",
+    "Restauration",
+    "Section_internationale",
+    "Reussite",
+    "Mention_TB",
+    "Mention_TB_Felicitations",
+    "Mention_B",
+    "Mention_AB"
+  ],
+  "n_clusters": 210,
+  "n_outliers": 5583,
+  "n_rules": 36
+}

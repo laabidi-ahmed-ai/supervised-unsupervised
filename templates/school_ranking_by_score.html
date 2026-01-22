@@ -1,0 +1,417 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Education Analytics - School Ranking by Score</title>
+
+  <!-- CSS FILES -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
+
+  <style>
+    .navbar-nav .nav-item.dropdown .dropdown-toggle::after { display: none !important; }
+    .navbar-nav { margin-left: auto !important; margin-right: auto !important; width: fit-content; }
+
+    @media (min-width: 992px) {
+      .navbar-nav .nav-item.dropdown:hover .dropdown-menu { display: block; margin-top: 0; }
+      .navbar-nav .nav-item.dropdown .dropdown-menu {
+        margin-top: 0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: 1px solid rgba(0,0,0,0.1); padding: 0.5rem 0;
+      }
+      .navbar-nav .nav-item.dropdown .dropdown-item {
+        padding: 0.5rem 1.5rem; font-size: 14px; transition: background-color 0.2s ease;
+      }
+      .navbar-nav .nav-item.dropdown .dropdown-item:hover { background-color: #f8f9fa; }
+    }
+
+    .form-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 24px;
+    }
+
+    .result-box {
+      border-radius: 14px;
+      padding: 18px 18px;
+      background: rgba(129, 178, 154, 0.15);
+      border: 1px solid rgba(129, 178, 154, 0.35);
+    }
+
+    .result-box.error {
+      background: rgba(220, 53, 69, 0.15);
+      border: 1px solid rgba(220, 53, 69, 0.35);
+    }
+
+    .badge-soft {
+      background: rgba(61, 64, 91, 0.10);
+      color: #3D405B;
+      border: 1px solid rgba(61, 64, 91, 0.18);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title-divider {
+      font-weight: 600;
+      color: #3D405B;
+      margin-bottom: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #e9ecef;
+    }
+
+    .percentile-bar {
+      height: 20px;
+      background: #e9ecef;
+      border-radius: 10px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+
+    .percentile-fill {
+      height: 100%;
+      background: linear-gradient(135deg, #81B29A 0%, #3D405B 100%);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+<main>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="Education Analytics">
+        <span class="navbar-brand-text">
+          Education
+          <small>Analytics</small>
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="schoolTypologyDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">School Typology</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="schoolTypologyDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin1' %}">Classify by type/program (ULIS, SEGPA, GRETA)</a></li>
+              <li><a class="dropdown-item" href="#">Public/private</a></li>
+              <li><a class="dropdown-item" href="{% url 'predict' %}"> primary/middle/high</a></li>
+              <li><a class="dropdown-item" href="#">Canteen, boarding availability</a></li>
+              <li><a class="dropdown-item" href="#">Program clustering</a></li>
+              <li><a class="dropdown-item" href="{% url 'cantine:predict' %}">Canteen prediction (Cantine)</a></li>
+              <li><a class="dropdown-item" href="{% url 'formation:predict' %}">Formation clustering (Objectif Formation)</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+                                    <li><a class="dropdown-item" href="#">Cluster by region and performance</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'risk' %}">Detect regions at risk of too few schools</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+                                </ul>
+                            </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin2' %}">Cluster by region and performance</a></li>
+              <li><a class="dropdown-item" href="#">Detect regions at risk of too few schools</a></li>
+              <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="performanceAnomaliesDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Performance & Anomalies</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="performanceAnomaliesDropdown">
+              <li><a class="dropdown-item" href="{% url 'school_ranking_by_score' %}">School ranking by scores</a></li>
+              <li><a class="dropdown-item" href="{% url 'temporal_trajectory_clustering' %}">Temporal trajectory clustering</a></li>
+              <li><a class="dropdown-item" href="#">Identify anomalies (success rates, enrolment changes, gender gaps)</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="candidateAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Candidate Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="candidateAnalysisDropdown">
+              <li><a class="dropdown-item" href="#">Candidate segmentation (profile, performance)</a></li>
+              <li><a class="dropdown-item" href="#">Discover "if-then" rules for significant associations</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+    <div class="section-overlay"></div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path fill="#3D405B" fill-opacity="1"
+            d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,0L0,0Z"></path>
+    </svg>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-12">
+          <h2 class="text-white">Education Analytics Platform</h2>
+          <h1 class="text-white mb-3">Prediction: School Ranking by Score</h1>
+          <p class="text-white mb-4">
+            Enter the school characteristics below to predict its performance score. The model uses location, type, and administrative data to estimate rankings.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path fill="#ffffff" fill-opacity="1"
+            d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L0,320Z"></path>
+    </svg>
+  </section>
+
+  <!-- FORM SECTION -->
+  <section class="about-section section-padding" id="section_2">
+    <div class="container">
+      <div class="row justify-content-center">
+
+        <div class="col-lg-10 col-12">
+          <div class="form-card">
+            <h3 class="mb-4">Prediction Form</h3>
+
+            <form method="post" action="{% url 'school_ranking_by_score' %}" class="row g-3">
+              {% csrf_token %}
+
+              <h5 class="mb-2">Location Information</h5>
+
+              <div class="col-md-6">
+                <label class="form-label">Latitude</label>
+                <input type="number" step="0.000001" class="form-control" name="latitude" placeholder="e.g., 48.8566" value="{{ form_data.latitude }}" required>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Longitude</label>
+                <input type="number" step="0.000001" class="form-control" name="longitude" placeholder="e.g., 2.3522" value="{{ form_data.longitude }}" required>
+              </div>
+
+              <div class="col-12"><hr></div>
+              <h5 class="mb-2">School Classification</h5>
+
+              <div class="col-md-6">
+                <label class="form-label">Public/Private Status</label>
+                <select class="form-select" name="statut_public_prive" required>
+                  <option value="" disabled {% if not form_data.statut_public_prive %}selected{% endif %}>Select status...</option>
+                  <option value="Public" {% if form_data.statut_public_prive == 'Public' %}selected{% endif %}>Public</option>
+                  <option value="Prive" {% if form_data.statut_public_prive == 'Prive' %}selected{% endif %}>Private</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Private Contract Type</label>
+                <select class="form-select" name="type_contrat_prive" required>
+                  <option value="" disabled {% if not form_data.type_contrat_prive %}selected{% endif %}>Select type...</option>
+                  <option value="SANS OBJET" {% if form_data.type_contrat_prive == 'SANS OBJET' %}selected{% endif %}>Sans Objet (N/A)</option>
+                  <option value="SOUS CONTRAT" {% if form_data.type_contrat_prive == 'SOUS CONTRAT' %}selected{% endif %}>Sous Contrat</option>
+                  <option value="HORS CONTRAT" {% if form_data.type_contrat_prive == 'HORS CONTRAT' %}selected{% endif %}>Hors Contrat</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">School Nature</label>
+                <select class="form-select" name="libelle_nature" required>
+                  <option value="" disabled {% if not form_data.libelle_nature %}selected{% endif %}>Select nature...</option>
+                  <option value="ECOLE PRIMAIRE" {% if form_data.libelle_nature == 'ECOLE PRIMAIRE' %}selected{% endif %}>Ecole Primaire</option>
+                  <option value="ECOLE ELEMENTAIRE" {% if form_data.libelle_nature == 'ECOLE ELEMENTAIRE' %}selected{% endif %}>Ecole Elementaire</option>
+                  <option value="ECOLE MATERNELLE" {% if form_data.libelle_nature == 'ECOLE MATERNELLE' %}selected{% endif %}>Ecole Maternelle</option>
+                  <option value="COLLEGE" {% if form_data.libelle_nature == 'COLLEGE' %}selected{% endif %}>College</option>
+                  <option value="LYCEE POLYVALENT" {% if form_data.libelle_nature == 'LYCEE POLYVALENT' %}selected{% endif %}>Lycee Polyvalent</option>
+                  <option value="LYCEE PROFESSIONNEL" {% if form_data.libelle_nature == 'LYCEE PROFESSIONNEL' %}selected{% endif %}>Lycee Professionnel</option>
+                  <option value="LYCEE ENSEIGNT GENERAL ET TECHNOLOGIQUE" {% if form_data.libelle_nature == 'LYCEE ENSEIGNT GENERAL ET TECHNOLOGIQUE' %}selected{% endif %}>Lycee General et Technologique</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">School State</label>
+                <select class="form-select" name="etat" required>
+                  <option value="" disabled {% if not form_data.etat %}selected{% endif %}>Select state...</option>
+                  <option value="OUVERT" {% if form_data.etat == 'OUVERT' %}selected{% endif %}>Ouvert (Open)</option>
+                  <option value="A FERMER" {% if form_data.etat == 'A FERMER' %}selected{% endif %}>A Fermer (To Close)</option>
+                  <option value="A OUVRIR" {% if form_data.etat == 'A OUVRIR' %}selected{% endif %}>A Ouvrir (To Open)</option>
+                </select>
+              </div>
+
+              <div class="col-12"><hr></div>
+              <h5 class="mb-2">Administrative Region</h5>
+
+              <div class="col-md-4">
+                <label class="form-label">Region</label>
+                <select class="form-select" name="libelle_region" required>
+                  <option value="" disabled {% if not form_data.libelle_region %}selected{% endif %}>Select region...</option>
+                  <option value="Ile-de-France" {% if form_data.libelle_region == 'Ile-de-France' %}selected{% endif %}>Ile-de-France</option>
+                  <option value="Auvergne-Rhone-Alpes" {% if form_data.libelle_region == 'Auvergne-Rhone-Alpes' %}selected{% endif %}>Auvergne-Rhone-Alpes</option>
+                  <option value="Nouvelle-Aquitaine" {% if form_data.libelle_region == 'Nouvelle-Aquitaine' %}selected{% endif %}>Nouvelle-Aquitaine</option>
+                  <option value="Occitanie" {% if form_data.libelle_region == 'Occitanie' %}selected{% endif %}>Occitanie</option>
+                  <option value="Hauts-de-France" {% if form_data.libelle_region == 'Hauts-de-France' %}selected{% endif %}>Hauts-de-France</option>
+                  <option value="Grand Est" {% if form_data.libelle_region == 'Grand Est' %}selected{% endif %}>Grand Est</option>
+                  <option value="Provence-Alpes-Cote d'Azur" {% if form_data.libelle_region == "Provence-Alpes-Cote d'Azur" %}selected{% endif %}>Provence-Alpes-Cote d'Azur</option>
+                  <option value="Pays de la Loire" {% if form_data.libelle_region == 'Pays de la Loire' %}selected{% endif %}>Pays de la Loire</option>
+                  <option value="Bretagne" {% if form_data.libelle_region == 'Bretagne' %}selected{% endif %}>Bretagne</option>
+                  <option value="Normandie" {% if form_data.libelle_region == 'Normandie' %}selected{% endif %}>Normandie</option>
+                  <option value="Bourgogne-Franche-Comte" {% if form_data.libelle_region == 'Bourgogne-Franche-Comte' %}selected{% endif %}>Bourgogne-Franche-Comte</option>
+                  <option value="Centre-Val de Loire" {% if form_data.libelle_region == 'Centre-Val de Loire' %}selected{% endif %}>Centre-Val de Loire</option>
+                  <option value="Corse" {% if form_data.libelle_region == 'Corse' %}selected{% endif %}>Corse</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Academy</label>
+                <input type="text" class="form-control" name="libelle_academie" placeholder="e.g., Paris" value="{{ form_data.libelle_academie }}" required>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Department</label>
+                <input type="text" class="form-control" name="libelle_departement" placeholder="e.g., Paris" value="{{ form_data.libelle_departement }}" required>
+              </div>
+
+              <div class="col-12"><hr></div>
+              <h5 class="mb-2">School Characteristics</h5>
+
+              <div class="col-md-4">
+                <label class="form-label">Elementary School</label>
+                <select class="form-select" name="ecole_elementaire" required>
+                  <option value="" disabled {% if not form_data.ecole_elementaire %}selected{% endif %}>Select...</option>
+                  <option value="1" {% if form_data.ecole_elementaire == '1' %}selected{% endif %}>Yes</option>
+                  <option value="0" {% if form_data.ecole_elementaire == '0' %}selected{% endif %}>No</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Kindergarten</label>
+                <select class="form-select" name="ecole_maternelle" required>
+                  <option value="" disabled {% if not form_data.ecole_maternelle %}selected{% endif %}>Select...</option>
+                  <option value="1" {% if form_data.ecole_maternelle == '1' %}selected{% endif %}>Yes</option>
+                  <option value="0" {% if form_data.ecole_maternelle == '0' %}selected{% endif %}>No</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Cafeteria Available</label>
+                <select class="form-select" name="restauration" required>
+                  <option value="" disabled {% if not form_data.restauration %}selected{% endif %}>Select...</option>
+                  <option value="1" {% if form_data.restauration == '1' %}selected{% endif %}>Yes</option>
+                  <option value="0" {% if form_data.restauration == '0' %}selected{% endif %}>No</option>
+                </select>
+              </div>
+
+              <div class="col-12 mt-3">
+                <button type="submit" class="btn custom-btn w-100">
+                  <i class="bi bi-lightning-charge-fill me-2"></i> Predict Score
+                </button>
+              </div>
+
+            </form>
+
+            {% if prediction %}
+              <div class="mt-4 result-box">
+                <h5 class="mb-2">Prediction Result</h5>
+                <p class="mb-2"><i class="bi bi-trophy-fill text-warning me-2"></i><strong>Predicted Score: {{ prediction|floatformat:1 }}</strong></p>
+                <p class="mb-2">{{ percentile_message }}</p>
+                <div class="percentile-bar">
+                  <div class="percentile-fill" id="percentileFill"></div>
+                </div>
+                <p class="mb-0"><small>Your school is in the top <strong>{{ percentile_top }}%</strong> of schools in France</small></p>
+                <script>document.getElementById('percentileFill').style.width = '{{ percentile }}%';</script>
+              </div>
+            {% endif %}
+
+            {% if error %}
+              <div class="mt-4 result-box error">
+                <h5 class="mb-2">Error</h5>
+                <p class="mb-0"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>{{ error }}</p>
+              </div>
+            {% endif %}
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-12 me-auto mb-5 mb-lg-0">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+          <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="">
+          <span class="navbar-brand-text">
+            Education
+            <small>Analytics</small>
+          </span>
+        </a>
+      </div>
+
+      <div class="col-lg-3 col-12">
+        <h5 class="site-footer-title mb-4">Platform Features</h5>
+        <p class="d-flex border-bottom pb-3 mb-3 me-lg-3">
+          <span>School Typology</span>
+          Classification & Clustering
+        </p>
+        <p class="d-flex me-lg-3">
+          <span>Geographic Analysis</span>
+          Regional Insights
+        </p>
+        <br>
+        <p class="copyright-text">Copyright 2024 Education Analytics Platform</p>
+      </div>
+
+      <div class="col-lg-2 col-12 ms-auto">
+        <ul class="social-icon mt-lg-5 mt-3 mb-4">
+          <li class="social-icon-item"><a href="#" class="social-icon-link bi-instagram"></a></li>
+          <li class="social-icon-item"><a href="#" class="social-icon-link bi-twitter"></a></li>
+          <li class="social-icon-item"><a href="#" class="social-icon-link bi-whatsapp"></a></li>
+        </ul>
+        <p class="copyright-text">Design: <a rel="nofollow" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+      </div>
+    </div>
+  </div>
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    <path fill="#81B29A" fill-opacity="1"
+          d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L0,320Z"></path>
+  </svg>
+</footer>
+
+<!-- JS FILES -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/jquery.sticky.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+
+</body>

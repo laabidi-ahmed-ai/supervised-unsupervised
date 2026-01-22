@@ -1,0 +1,249 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Academies Clustering</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
+
+    <style>
+        .form-section {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 900px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #3D405B;
+        }
+        .form-control:focus {
+            border-color: #81B29A;
+            box-shadow: 0 0 0 0.25rem rgba(129, 178, 154, 0.25);
+        }
+        .btn-submit {
+            background-color: #81B29A;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+        }
+        .btn-submit:hover {
+            background-color: #6a9b81;
+        }
+        .result-block {
+            background-color: #f0f8f4;
+            border-left: 5px solid #81B29A;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="Education Analytics">
+        <span class="navbar-brand-text">
+          Education
+          <small>Analytics</small>
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="schoolTypologyDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">School Typology</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="schoolTypologyDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin1' %}">Classify by type/program (ULIS, SEGPA, GRETA)</a></li>
+              <li><a class="dropdown-item" href="#">Public/private</a></li>
+              <li><a class="dropdown-item" href="{% url 'predict' %}"> primary/middle/high</a></li>
+              <li><a class="dropdown-item" href="#">Canteen, boarding availability</a></li>
+              <li><a class="dropdown-item" href="#">Program clustering</a></li>
+              <li><a class="dropdown-item" href="{% url 'cantine:predict' %}">Canteen prediction (Cantine)</a></li>
+              <li><a class="dropdown-item" href="{% url 'formation:predict' %}">Formation clustering (Objectif Formation)</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+                                    <li><a class="dropdown-item" href="#">Cluster by region and performance</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'risk' %}">Detect regions at risk of too few schools</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+                                </ul>
+                            </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin2' %}">Cluster by region and performance</a></li>
+              <li><a class="dropdown-item" href="#">Detect regions at risk of too few schools</a></li>
+              <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="performanceAnomaliesDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Performance & Anomalies</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="performanceAnomaliesDropdown">
+              <li><a class="dropdown-item" href="{% url 'school_ranking_by_score' %}">School ranking by scores</a></li>
+              <li><a class="dropdown-item" href="{% url 'temporal_trajectory_clustering' %}">Temporal trajectory clustering</a></li>
+              <li><a class="dropdown-item" href="#">Identify anomalies (success rates, enrolment changes, gender gaps)</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="candidateAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Candidate Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="candidateAnalysisDropdown">
+              <li><a class="dropdown-item" href="#">Candidate segmentation (profile, performance)</a></li>
+              <li><a class="dropdown-item" href="#">Discover "if-then" rules for significant associations</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<main>
+
+<!-- HERO -->
+<section class="hero-section d-flex justify-content-center align-items-center">
+    <div class="section-overlay"></div>
+    <div class="container text-center">
+        <h1 class="text-white mb-3">Academies & Schools Clustering</h1>
+        <p class="text-white lead">
+            Enter the school characteristics to predict its type
+        </p>
+    </div>
+</section>
+
+<!-- FORM -->
+<section class="section-padding">
+    <div class="container">
+        <div class="form-section">
+
+            <h2 class="text-center mb-5">Predict School Type</h2>
+
+            <form method="post" class="row g-4">
+                {% csrf_token %}
+
+                <div class="col-md-6">
+                    <label class="form-label">SEGPA</label>
+                    {{ form.SEGPA }}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">ULIS</label>
+                    {{ form.ULIS }}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Hébergement</label>
+                    {{ form.Hebergement }}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Restauration</label>
+                    {{ form.Restauration }}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Code Nature</label>
+                    {{ form.code_nature }}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Code Région</label>
+                    {{ form.code_region }}
+                </div>
+
+                <div class="col-12 form-check mt-3">
+                    {{ form.statut_public_prive_Public }}
+                    <label class="form-check-label">
+                        {{ form.statut_public_prive_Public.label }}
+                    </label>
+                </div>
+
+                <div class="col-12 text-center mt-4">
+                    <button type="submit" class="btn btn-submit text-white px-5">
+                        Predict
+                    </button>
+                </div>
+            </form>
+
+            <!-- RESULT -->
+            {% if prediction is not None %}
+                <div class="result-block">
+                    <h3 class="mb-3">Predicted School Type</h3>
+
+                    {% if prediction == 0 %}
+                        <h2 class="text-primary">École</h2>
+                    {% elif prediction == 1 %}
+                        <h2 class="text-warning">Collège</h2>
+                    {% elif prediction == 2 %}
+                        <h2 class="text-success">Lycée</h2>
+                    {% else %}
+                        <h2 class="text-secondary">Autre</h2>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if form.errors %}
+                <div class="alert alert-danger mt-4">
+                    <strong>Form errors:</strong>
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="container text-center">
+        <p class="copyright-text">
+            © 2026 Education Analytics Platform
+        </p>
+    </div>
+</footer>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

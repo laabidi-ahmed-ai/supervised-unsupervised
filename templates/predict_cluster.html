@@ -1,0 +1,20 @@
+<h2>Cluster Prediction</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Predict Cluster</button>
+</form>
+
+{% if predicted_cluster is not None %}
+<script>
+    alert(
+        "This candidate is closest to CLUSTER {{ predicted_cluster }}.\n\n" +
+        "{% if predicted_cluster == 0 %}" +
+        "Small institutions with moderate success rates." +
+        "{% else %}" +
+        "Large institutions with high success rates." +
+        "{% endif %}"
+    );
+</script>
+{% endif %}

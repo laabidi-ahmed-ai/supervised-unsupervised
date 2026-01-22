@@ -1,0 +1,520 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Tiya Golf Club - Free HTML CSS Template</title>
+
+        <!-- CSS FILES -->                
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+
+        <link href="{% static 'css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
+        
+        <!-- Custom dropdown hover styles -->
+         
+        <style>
+            /* Remove dropdown toggle caret/arrow */
+            .navbar-nav .nav-item.dropdown .dropdown-toggle::after {
+                display: none !important;
+            }
+            
+            /* Center navbar items */
+            .navbar-nav {
+                margin-left: auto !important;
+                margin-right: auto !important;
+                width: fit-content;
+            }
+            
+            /* Enable dropdown on hover for desktop */
+            @media (min-width: 992px) {
+                .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+                    display: block;
+                    margin-top: 0;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-menu {
+                    margin-top: 0;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    padding: 0.5rem 0;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-item {
+                    padding: 0.5rem 1.5rem;
+                    font-size: 14px;
+                    transition: background-color 0.2s ease;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-item:hover {
+                    background-color: #f8f9fa;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-header {
+                    padding: 0.5rem 1.5rem 0.25rem;
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    color: #6c757d;
+                    margin-bottom: 0.25rem;
+                }
+            }
+            
+            /* Mobile: keep click behavior */
+            @media (max-width: 991px) {
+                .navbar-nav {
+                    margin-left: 0 !important;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-menu {
+                    border-radius: 8px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    padding: 0.5rem 0;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-item {
+                    padding: 0.5rem 1.5rem;
+                    font-size: 14px;
+                }
+                
+                .navbar-nav .nav-item.dropdown .dropdown-header {
+                    padding: 0.5rem 1.5rem 0.25rem;
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    color: #6c757d;
+                    margin-bottom: 0.25rem;
+                }
+            }
+        </style>
+        <style>
+/* Modal styling consistent with your template */
+.modal-content {
+    border-radius: 12px;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-body form p {
+    margin-bottom: 1rem;
+}
+
+.modal-body input {
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.modal-body button {
+    width: 100%;
+}
+</style>
+
+        
+<!--
+
+TemplateMo 587 Tiya Golf Club
+
+https://templatemo.com/tm-587-tiya-golf-club
+
+-->
+    </head>
+    
+    <body>
+
+        <main>
+
+            <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="Education Analytics">
+        <span class="navbar-brand-text">
+          Education
+          <small>Analytics</small>
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="schoolTypologyDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">School Typology</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="schoolTypologyDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin1' %}">Classify by type/program (ULIS, SEGPA, GRETA)</a></li>
+              <li><a class="dropdown-item" href="#">Public/private</a></li>
+              <li><a class="dropdown-item" href="{% url 'predict' %}"> primary/middle/high</a></li>
+              <li><a class="dropdown-item" href="#">Canteen, boarding availability</a></li>
+              <li><a class="dropdown-item" href="#">Program clustering</a></li>
+              <li><a class="dropdown-item" href="{% url 'cantine:predict' %}">Canteen prediction (Cantine)</a></li>
+              <li><a class="dropdown-item" href="{% url 'formation:predict' %}">Formation clustering (Objectif Formation)</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+                                    <li><a class="dropdown-item" href="#">Cluster by region and performance</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'risk' %}">Detect regions at risk of too few schools</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+                                </ul>
+                            </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin2' %}">Cluster by region and performance</a></li>
+              <li><a class="dropdown-item" href="#">Detect regions at risk of too few schools</a></li>
+              <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="performanceAnomaliesDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Performance & Anomalies</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="performanceAnomaliesDropdown">
+              <li><a class="dropdown-item" href="{% url 'school_ranking_by_score' %}">School ranking by scores</a></li>
+              <li><a class="dropdown-item" href="{% url 'temporal_trajectory_clustering' %}">Temporal trajectory clustering</a></li>
+              <li><a class="dropdown-item" href="#">Identify anomalies (success rates, enrolment changes, gender gaps)</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="candidateAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Candidate Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="candidateAnalysisDropdown">
+              <li><a class="dropdown-item" href="#">Candidate segmentation (profile, performance)</a></li>
+              <li><a class="dropdown-item" href="#">Discover "if-then" rules for significant associations</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+            <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">                
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">User Login</h5>
+                    
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                
+                <div class="offcanvas-body d-flex flex-column">
+                    <form class="custom-form member-login-form" action="#" method="post" role="form">
+
+                        <div class="member-login-form-body">
+                            <div class="mb-4">
+                                <label class="form-label mb-2" for="member-login-number">Username</label>
+
+                                <input type="text" name="member-login-number" id="member-login-number" class="form-control" placeholder="Enter username" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label mb-2" for="member-login-password">Password</label>
+
+                                <input type="password" name="member-login-password" id="member-login-password" pattern="[0-9a-zA-Z]{4,10}" class="form-control" placeholder="Password" required="">
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                              
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Remember me
+                                </label>
+                            </div>
+
+                            <div class="col-lg-5 col-md-7 col-8 mx-auto">
+                                <button type="submit" class="form-control">Login</button>
+                            </div>
+
+                            <div class="text-center my-4">
+                                <a href="#">Forgotten password?</a>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="mt-auto mb-5">
+                        <p>
+                            <strong class="text-white me-3">Any Questions?</strong>
+
+                            <a href="tel: 010-020-0340" class="contact-link">
+                            	010-020-0340
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3D405B" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+            </div>
+            
+
+            <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+
+                <div class="section-overlay"></div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3D405B" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
+
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-12 mb-5 mb-lg-0">
+                            <h2 class="text-white">Education Analytics Platform</h2>
+
+                            <h1 class="cd-headline rotate-1 text-white mb-4 pb-2">
+                                <span>Advanced</span>
+                                <span class="cd-words-wrapper">
+                                    <b class="is-visible">School Analysis</b>
+                                    <b>Data Insights</b>
+                                    <b>ML Solutions</b>
+                                </span>
+                            </h1>
+
+                            <p class="text-white mb-4">Comprehensive machine learning platform for analyzing school typology, geographic patterns, performance metrics, and candidate segmentation.</p>
+
+                            <div class="custom-btn-group">
+                                <a href="{% url 'PublicpriveApp:dashboard' %}" class="btn custom-btn smoothscroll me-3">Explore Analysis</a>
+
+                                <a href="#section_3" class="link smoothscroll">View Reports</a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+            </section>
+
+            <section class="about-section section-padding" id="section_2">
+                <div class="container">
+                    <div class="row">
+ <h1 class="mb-4">Prédiction Établissement Public/Privé</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'PublicpriveApp:predict_etablissement' %}">
+
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>ULIS:</label>
+            <input type="number" name="ulis" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>SEGPA:</label>
+            <input type="number" name="segpa" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Hébergement:</label>
+            <input type="number" name="hebergement" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Restauration:</label>
+            <input type="number" name="restauration" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>École élémentaire:</label>
+            <input type="number" name="ecole_elementaire" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>École maternelle:</label>
+            <input type="number" name="ecole_maternelle" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Lycée agricole:</label>
+            <input type="number" name="lycee_agricole" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Lycée militaire:</label>
+            <input type="number" name="lycee_militaire" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Lycée des métiers:</label>
+            <input type="number" name="lycee_des_metiers" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Code nature:</label>
+            <input type="number" name="code_nature" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Latitude:</label>
+            <input type="number" step="any" name="latitude" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Longitude:</label>
+            <input type="number" step="any" name="longitude" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Predict</button>
+    </form>
+
+  <style>
+        /* Modal overlay */
+        .result-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(61, 64, 91, 0.8); /* dark transparent */
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Modal content */
+        .result-modal-content {
+            background-color: #f8f9fa;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transform: translateY(-20px);
+            animation: slideDown 0.4s ease forwards;
+        }
+
+        /* Title */
+        .result-modal h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3D405B;
+            margin-bottom: 1rem;
+        }
+
+        /* Close button */
+        .result-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #eac07b;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .result-close:hover {
+            color: #f8f9fa;
+        }
+
+        /* OK button */
+        .result-ok {
+            background-color: #81B29A; /* template green */
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .result-ok:hover {
+            background-color: #3D5A40;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes slideDown {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+
+<!-- Result Modal -->
+<div id="resultModal" class="result-modal">
+    <div class="result-modal-content">
+        <span class="result-close">&times;</span>
+        <h1>Résultat Prédiction</h1>
+        <p id="resultText">{{ result }}</p>
+        <button class="result-ok">OK</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const modal = document.getElementById("resultModal");
+    const closeBtn = document.querySelector(".result-close");
+    const okBtn = document.querySelector(".result-ok");
+    
+    {% if result %}
+        modal.style.display = "block";  // show modal if result exists
+    {% endif %}
+
+    // Close modal
+    closeBtn.onclick = okBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+});
+</script>
+                </div>
+            </section>
+
+
+           
+           
+
+           
+        </main>
+
+      
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#81B29A" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+        </footer>
+
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/jquery.sticky.js' %}"></script>
+        <script src="{% static 'js/click-scroll.js' %}"></script>
+        <script src="{% static 'js/animated-headline.js' %}"></script>
+        <script src="{% static 'js/modernizr.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+
+
+    </body>
+    
+</html>

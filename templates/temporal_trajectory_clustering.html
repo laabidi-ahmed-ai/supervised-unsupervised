@@ -1,0 +1,379 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Education Analytics - Temporal Trajectory Clustering</title>
+
+  <!-- CSS FILES -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
+
+  <style>
+    .navbar-nav .nav-item.dropdown .dropdown-toggle::after { display: none !important; }
+    .navbar-nav { margin-left: auto !important; margin-right: auto !important; width: fit-content; }
+
+    @media (min-width: 992px) {
+      .navbar-nav .nav-item.dropdown:hover .dropdown-menu { display: block; margin-top: 0; }
+      .navbar-nav .nav-item.dropdown .dropdown-menu {
+        margin-top: 0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: 1px solid rgba(0,0,0,0.1); padding: 0.5rem 0;
+      }
+      .navbar-nav .nav-item.dropdown .dropdown-item {
+        padding: 0.5rem 1.5rem; font-size: 14px; transition: background-color 0.2s ease;
+      }
+      .navbar-nav .nav-item.dropdown .dropdown-item:hover { background-color: #f8f9fa; }
+    }
+
+    .form-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.06);
+      padding: 24px;
+    }
+
+    .result-box {
+      border-radius: 14px;
+      padding: 18px 18px;
+      text-align: center;
+    }
+
+    .result-box.cluster-0 {
+      background: rgba(255, 193, 7, 0.15);
+      border: 1px solid rgba(255, 193, 7, 0.35);
+    }
+
+    .result-box.cluster-1 {
+      background: rgba(220, 53, 69, 0.15);
+      border: 1px solid rgba(220, 53, 69, 0.35);
+    }
+
+    .result-box.cluster-2 {
+      background: rgba(40, 167, 69, 0.15);
+      border: 1px solid rgba(40, 167, 69, 0.35);
+    }
+
+    .result-box.error {
+      background: rgba(220, 53, 69, 0.15);
+      border: 1px solid rgba(220, 53, 69, 0.35);
+    }
+
+    .badge-soft {
+      background: rgba(61, 64, 91, 0.10);
+      color: #3D405B;
+      border: 1px solid rgba(61, 64, 91, 0.18);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-group-text {
+      background: #f8f9fa;
+      border: 1px solid #ced4da;
+      border-left: none;
+      border-radius: 0 0.375rem 0.375rem 0;
+    }
+
+    .form-control.with-suffix {
+      border-radius: 0.375rem 0 0 0.375rem;
+    }
+  </style>
+</head>
+
+<body>
+<main>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="Education Analytics">
+        <span class="navbar-brand-text">
+          Education
+          <small>Analytics</small>
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="schoolTypologyDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">School Typology</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="schoolTypologyDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin1' %}">Classify by type/program (ULIS, SEGPA, GRETA)</a></li>
+              <li><a class="dropdown-item" href="#">Public/private</a></li>
+              <li><a class="dropdown-item" href="{% url 'predict' %}"> primary/middle/high</a></li>
+              <li><a class="dropdown-item" href="#">Canteen, boarding availability</a></li>
+              <li><a class="dropdown-item" href="#">Program clustering</a></li>
+              <li><a class="dropdown-item" href="{% url 'cantine:predict' %}">Canteen prediction (Cantine)</a></li>
+              <li><a class="dropdown-item" href="{% url 'formation:predict' %}">Formation clustering (Objectif Formation)</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+                                    <li><a class="dropdown-item" href="#">Cluster by region and performance</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'risk' %}">Detect regions at risk of too few schools</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+                                </ul>
+                            </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="geographicAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Geographic Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="geographicAnalysisDropdown">
+              <li><a class="dropdown-item" href="{% url 'objective_yassin2' %}">Cluster by region and performance</a></li>
+              <li><a class="dropdown-item" href="#">Detect regions at risk of too few schools</a></li>
+              <li><a class="dropdown-item" href="{% url 'ferdws_cluster' %}">Academy-level clustering</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="performanceAnomaliesDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Performance & Anomalies</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="performanceAnomaliesDropdown">
+              <li><a class="dropdown-item" href="{% url 'school_ranking_by_score' %}">School ranking by scores</a></li>
+              <li><a class="dropdown-item" href="{% url 'temporal_trajectory_clustering' %}">Temporal trajectory clustering</a></li>
+              <li><a class="dropdown-item" href="#">Identify anomalies (success rates, enrolment changes, gender gaps)</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="candidateAnalysisDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">Candidate Analysis</a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="candidateAnalysisDropdown">
+              <li><a class="dropdown-item" href="#">Candidate segmentation (profile, performance)</a></li>
+              <li><a class="dropdown-item" href="#">Discover "if-then" rules for significant associations</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+    <div class="section-overlay"></div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path fill="#3D405B" fill-opacity="1"
+            d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,0L0,0Z"></path>
+    </svg>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-12">
+          <h2 class="text-white">Education Analytics Platform</h2>
+          <h1 class="text-white mb-3">Prediction: Temporal Trajectory Clustering</h1>
+          <p class="text-white mb-4">
+            Analyze French Baccalaureat academy data (2021-2024) and classify academies into performance categories based on temporal metrics and trends.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path fill="#ffffff" fill-opacity="1"
+            d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L0,320Z"></path>
+    </svg>
+  </section>
+
+  <!-- FORM SECTION -->
+  <section class="about-section section-padding" id="section_2">
+    <div class="container">
+      <div class="row justify-content-center">
+
+        <div class="col-lg-10 col-12">
+          <div class="form-card">
+            <h3 class="mb-4">Prediction Form</h3>
+
+            <div class="alert alert-info mb-4">
+              <h6 class="mb-2"><i class="bi bi-info-circle me-2"></i>Cluster Categories</h6>
+              <ul class="mb-0 small">
+                <li><strong>Large Metropolitan:</strong> Large urban academies (~90% success, ~42,000 students)</li>
+                <li><strong>Emerging Territories:</strong> Developing regions (~76% success, rapid growth)</li>
+                <li><strong>Stable High-Performers:</strong> Mature academies (~92% success, stable growth)</li>
+              </ul>
+            </div>
+
+            <form method="post" action="{% url 'temporal_trajectory_clustering' %}" class="row g-3">
+              {% csrf_token %}
+
+              <h5 class="mb-2">Success & Attendance Rates</h5>
+
+              <div class="col-md-6">
+                <label class="form-label">Success Rate</label>
+                <div class="input-group">
+                  <input type="number" step="0.01" min="0" max="100" class="form-control with-suffix" name="taux_reussite" placeholder="e.g., 92.5" value="{{ form_data.taux_reussite }}" required>
+                  <span class="input-group-text">%</span>
+                </div>
+                <small class="text-muted">Percentage of admitted students</small>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Attendance Rate</label>
+                <div class="input-group">
+                  <input type="number" step="0.01" min="0" max="100" class="form-control with-suffix" name="taux_presence" placeholder="e.g., 98.0" value="{{ form_data.taux_presence }}" required>
+                  <span class="input-group-text">%</span>
+                </div>
+                <small class="text-muted">Percentage of enrolled students who attended</small>
+              </div>
+
+              <div class="col-12"><hr></div>
+              <h5 class="mb-2">Mention Rates</h5>
+
+              <div class="col-md-6">
+                <label class="form-label">Mention TB Rate (Excellent)</label>
+                <div class="input-group">
+                  <input type="number" step="0.01" min="0" max="100" class="form-control with-suffix" name="taux_tb" placeholder="e.g., 15.0" value="{{ form_data.taux_tb }}" required>
+                  <span class="input-group-text">%</span>
+                </div>
+                <small class="text-muted">Students with Tres Bien mention</small>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Mention B Rate (Good)</label>
+                <div class="input-group">
+                  <input type="number" step="0.01" min="0" max="100" class="form-control with-suffix" name="taux_b" placeholder="e.g., 25.0" value="{{ form_data.taux_b }}" required>
+                  <span class="input-group-text">%</span>
+                </div>
+                <small class="text-muted">Students with Bien mention</small>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Mention AB Rate (Fairly Good)</label>
+                <div class="input-group">
+                  <input type="number" step="0.01" min="0" max="100" class="form-control with-suffix" name="taux_ab" placeholder="e.g., 30.0" value="{{ form_data.taux_ab }}" required>
+                  <span class="input-group-text">%</span>
+                </div>
+                <small class="text-muted">Students with Assez Bien mention</small>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">No Mention Rate</label>
+                <div class="input-group">
+                  <input type="number" step="0.01" min="0" max="100" class="form-control with-suffix" name="taux_sans_mention" placeholder="e.g., 30.0" value="{{ form_data.taux_sans_mention }}" required>
+                  <span class="input-group-text">%</span>
+                </div>
+                <small class="text-muted">Students without any mention</small>
+              </div>
+
+              <div class="col-12"><hr></div>
+              <h5 class="mb-2">Additional Metrics</h5>
+
+              <div class="col-md-6">
+                <label class="form-label">First Round Admission Rate</label>
+                <div class="input-group">
+                  <input type="number" step="0.01" min="0" max="100" class="form-control with-suffix" name="taux_1er_groupe" placeholder="e.g., 85.0" value="{{ form_data.taux_1er_groupe }}" required>
+                  <span class="input-group-text">%</span>
+                </div>
+                <small class="text-muted">Admitted in first round (no oral exam)</small>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Total Enrollment</label>
+                <input type="number" min="0" class="form-control" name="inscrits" placeholder="e.g., 25000" value="{{ form_data.inscrits }}" required>
+                <small class="text-muted">Total number of enrolled students</small>
+              </div>
+
+              <div class="col-12 mt-3">
+                <button type="submit" class="btn custom-btn w-100">
+                  <i class="bi bi-lightning-charge-fill me-2"></i> Predict Category
+                </button>
+              </div>
+
+            </form>
+
+            {% if prediction %}
+              <div class="mt-4 result-box cluster-{{ cluster_id }}">
+                <h5 class="mb-2">Prediction Result</h5>
+                <h4 class="mb-2"><strong>{{ prediction }}</strong></h4>
+                <p class="mb-0">{{ description }}</p>
+              </div>
+            {% endif %}
+
+            {% if error %}
+              <div class="mt-4 result-box error">
+                <h5 class="mb-2">Error</h5>
+                <p class="mb-0"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>{{ error }}</p>
+              </div>
+            {% endif %}
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-12 me-auto mb-5 mb-lg-0">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+          <img src="{% static 'images/logo.png' %}" class="navbar-brand-image img-fluid" alt="">
+          <span class="navbar-brand-text">
+            Education
+            <small>Analytics</small>
+          </span>
+        </a>
+      </div>
+
+      <div class="col-lg-3 col-12">
+        <h5 class="site-footer-title mb-4">Platform Features</h5>
+        <p class="d-flex border-bottom pb-3 mb-3 me-lg-3">
+          <span>School Typology</span>
+          Classification & Clustering
+        </p>
+        <p class="d-flex me-lg-3">
+          <span>Geographic Analysis</span>
+          Regional Insights
+        </p>
+        <br>
+        <p class="copyright-text">Copyright 2024 Education Analytics Platform</p>
+      </div>
+
+      <div class="col-lg-2 col-12 ms-auto">
+        <ul class="social-icon mt-lg-5 mt-3 mb-4">
+          <li class="social-icon-item"><a href="#" class="social-icon-link bi-instagram"></a></li>
+          <li class="social-icon-item"><a href="#" class="social-icon-link bi-twitter"></a></li>
+          <li class="social-icon-item"><a href="#" class="social-icon-link bi-whatsapp"></a></li>
+        </ul>
+        <p class="copyright-text">Design: <a rel="nofollow" href="https://templatemo.com" target="_blank">TemplateMo</a></p>
+      </div>
+    </div>
+  </div>
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    <path fill="#81B29A" fill-opacity="1"
+          d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L0,320Z"></path>
+  </svg>
+</footer>
+
+<!-- JS FILES -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/jquery.sticky.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+
+</body>

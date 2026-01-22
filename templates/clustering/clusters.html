@@ -1,0 +1,19 @@
+<!-- PublicpriveApp/templates/clusters.html -->
+<h1>All KMeans Cluster Data</h1>
+
+<img src="{{ elbow_plot }}" alt="Elbow Plot" style="max-width:600px;">
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr>
+        {% for key in data.0.keys %}
+        <th>{{ key }}</th>
+        {% endfor %}
+    </tr>
+    {% for row in data %}
+    <tr>
+        {% for key, value in row.items %}
+        <td>{{ value }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>

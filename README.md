@@ -293,30 +293,16 @@ For complete methodology, hyperparameter tuning, and evaluation:
 
 ### Steps
 
-1. **Clone repository and navigate to project**
-```bash
-cd mlproject-finaall
-```
+### Quick Start (No Virtual Environment Required)
 
-2. **Create virtual environment**
-```bash
-python -m venv venv
-venv\Scripts\activate  # Windows
-# or
-source venv/bin/activate  # Linux/Mac
-```
+You can run the project directly without creating a virtual environment:
 
-3. **Install dependencies**
-```bash
-pip install -r requirements.txt
-```
+1. **Open project in VS Code** (or your preferred IDE)
+   - Open the folder: `mlproject-finaall/mlproject-finaall`
 
-4. **Ensure model files are present**
-   - `ml_models/boarding_pipeline.pkl`
-   - `ml_models/clustering_pipeline.pkl`
-   - `ml_models/association_rules.json`
-   - `ml_models/boarding_features.json`
-   - `ml_models/clustering_info.json`
+2. **Install dependencies**
+   pip install -r requirements.txt
+   `
 
 5. **Run Django migrations** (if needed)
 ```bash
@@ -328,10 +314,9 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-7. **Access the application**
-   - Boarding Prediction: `http://localhost:8000/ml/boarding/`
-   - Association Rules: `http://localhost:8000/ml/association-rules/`
-
+7. **Access the application** or you can use buttons in the navbar 
+   - Boarding Prediction: `http://localhost:8000/ml/boarding/`  (boarding availability)
+   - Association Rules: `http://localhost:8000/ml/association-rules/`  (discover "if-then" rules for significant associations)
 ---
 
 ## Technologies & Dependencies

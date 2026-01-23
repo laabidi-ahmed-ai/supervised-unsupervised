@@ -285,7 +285,7 @@
                             if (data.success) {
                                 const predictionClass = data.prediction === 1 ? 'alert-success' : 'alert-warning';
                                 const icon = data.prediction === 1 ? 'bi-check-circle-fill' : '';
-                                const iconHtml = icon ? <i class="bi ${icon}"></i>  : '';
+                                const iconHtml = icon ? `<i class="bi ${icon}"></i>` : '';
                                 $('#result').html(`
                                     <div class="alert ${predictionClass}">
                                         <h4>${iconHtml}${data.prediction_text}</h4>
@@ -303,11 +303,11 @@
                                     </div>
                                 `).addClass('show');
                             } else {
-                                $('#result').html(<div class="alert alert-danger">Error: ${data.error}</div>).addClass('show');
+                                $('#result').html(`<div class="alert alert-danger">Error: ${data.error}</div>`).addClass('show');
                             }
                         },
                         error: function(xhr, status, error) {
-                            $('#result').html(<div class="alert alert-danger">Error: ${error}</div>).addClass('show');
+                            $('#result').html(`<div class="alert alert-danger">Error: ${error}</div>`).addClass('show');
                         }
                     });
                 });

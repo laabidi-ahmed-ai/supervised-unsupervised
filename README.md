@@ -66,7 +66,7 @@ I developed and deployed **two ML objectives**:
 - **📹 [Boarding Availability Prediction Demo](https://www.youtube.com/watch?v=XnFqAGlm8kY)**  
   Live demonstration of the XGBoost model predicting boarding availability with real examples showing how 29 features influence predictions.
 
-- **📹 [Association Rule Mining Demo]((https://www.youtube.com/watch?v=uErwy_XVr2g)**  
+- **📹 [Association Rule Mining Demo](https://www.youtube.com/watch?v=uErwy_XVr2g)**  
   Live demonstration of pattern discovery using DBSCAN clustering and Apriori algorithm, showing how candidate characteristics relate to exam outcomes.
 
 *These videos provide walkthroughs, example predictions.

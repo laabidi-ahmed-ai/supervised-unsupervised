@@ -53,7 +53,27 @@ I developed and deployed **two ML objectives**:
 - `if-then-rules-discovery` branch → `unsupervised_clean.ipynb` - Clustering & rules analysis
 
 ---
+## My Work Overview
 
+I developed and deployed **two ML objectives**:
+
+1. **Boarding Availability Prediction** - 
+2. **Candidate Pattern Discovery** - 
+### 🎥 Demo Videos & Live Demonstrations
+
+**Watch the live demos to see these models in action:**
+
+- **📹 [Boarding Availability Prediction Demo](https://www.youtube.com/watch?v=XnFqAGlm8kY)**  
+  Live demonstration of the XGBoost model predicting boarding availability with real examples showing how 29 features influence predictions.
+
+- **📹 [Association Rule Mining Demo]((https://www.youtube.com/watch?v=uErwy_XVr2g)**  
+  Live demonstration of pattern discovery using DBSCAN clustering and Apriori algorithm, showing how candidate characteristics relate to exam outcomes.
+
+*These videos provide walkthroughs, example predictions.
+
+# More explantions about everything ⬇️
+
+### My Files in This Repository
 ## 1. Boarding Availability Prediction
 
 ### What It Does

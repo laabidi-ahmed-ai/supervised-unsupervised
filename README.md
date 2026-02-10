@@ -15,7 +15,7 @@ This repository contains multiple ML objectives developed by a team:
 - **`if-then-rules-discovery` branch** - Training notebook  
   - `unsupervised_clean.ipynb` - Clustering and association rules analysis
 
-**For recruiters:** The `main` branch shows the deployed work. Training details are in the separate branches.
+The `main` branch shows the deployed work. Training details are in the separate branches.
 
 ---
 
